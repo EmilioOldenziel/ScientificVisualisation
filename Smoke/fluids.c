@@ -29,6 +29,8 @@ int   draw_vecs = 1;            //draw the vector field or not
 const int COLOR_BLACKWHITE=0;   //different types of color mapping: black-and-white, rainbow, banded
 const int COLOR_RAINBOW=1;
 const int COLOR_BANDS=2;
+const int COLOR_HEAT=3;
+const int COLOR_PARA=4;
 int   scalar_col = 0;           //method for scalar coloring
 int   frozen = 0;               //toggles on/off the animation
 
@@ -74,6 +76,9 @@ int clamp(float x)
 
 float max(float x, float y)
 { return x > y ? x : y; }
+
+float min(float x, float y)
+{ return x < y ? x : y; }
 
 //solve: Solve (compute) one step of the fluid flow simulation
 void solve(int n, fftw_real* vx, fftw_real* vy, fftw_real* vx0, fftw_real* vy0, fftw_real visc, fftw_real dt)
@@ -222,6 +227,26 @@ void rainbow(float value,float* R,float* G,float* B)
 	*B = max(0.0,(3-fabs(value-1)-fabs(value-2))/2);
 }
 
+
+//Implementation of our own colormap
+void heatMap(float value,float* R,float* G,float* B)
+{
+   if (value<0) value=0; if (value>1) value=1;
+   *R = min(1, max(0, (4*value)-0.25));	
+   *G = min(1, max(0, (4*value)-0.5));	
+   *B = min(1, max(0, (4*value)-0.75));	
+}
+
+void colorParameter(float value,float* R,float* G,float* B)
+{
+   if (value<0) value=0; if (value>1) value=1;
+   *R = min(1, max(0, (3*value)-0.33));	
+   *G = min(1, max(0, (3*value)-0.67));	
+   *B = min(1, max(0, (3*value)-0.67));	
+}
+
+
+
 //set_colormap: Sets three different types of colormaps
 void set_colormap(float vy)
 {
@@ -239,6 +264,10 @@ void set_colormap(float vy)
 		vy/= NLEVELS;
 		rainbow(vy,&R,&G,&B);
 	}
+	else if (scalar_col==COLOR_HEAT)
+		heatMap(vy,&R,&G,&B);
+	else if (scalar_col==COLOR_PARA)
+		colorParameter(vy,&R,&G,&B);
 
 	glColor3f(R,G,B);
 }
@@ -385,7 +414,7 @@ void keyboard(unsigned char key, int x, int y)
 			break;
 		case 'm':
 			scalar_col++;
-			if (scalar_col>COLOR_BANDS)
+			if (scalar_col>COLOR_PARA)
 				scalar_col=COLOR_BLACKWHITE;
 			break;
 		case 'a': frozen = 1-frozen; break;
