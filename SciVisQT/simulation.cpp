@@ -200,8 +200,8 @@ void Simulation::drag(int mx, int my, int DIM, int winWidth, int winHeight)
     len = sqrt(dx * dx + dy * dy);
     if (len != 0.0)
     {
-        dx *= 1.0 / len;
-        dy *= 1.0 / len;
+        dx *= 4.0 / len;
+        dy *= 4.0 / len;
     }
     fx[Y * DIM + X] += dx;
     fy[Y * DIM + X] += dy;

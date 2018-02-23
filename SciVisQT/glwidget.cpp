@@ -67,10 +67,12 @@ int GLWidget::clamp(float x)
 void GLWidget::rainbow(float value,float* R,float* G,float* B)
 {
     const float dx=0.8;
-    if (value<0)
+    if (value<0){
         value=0;
-    if (value>1)
+    }
+    if (value>1){
         value=1;
+    }
     value = (6-2*dx)*value+dx;
     *R = max(0.0,(3.0-fabs(value-4.0)-fabs(value-5.0))/2.0);
     *G = max(0.0,(4.0-fabs(value-2.0)-fabs(value-4.0))/2.0);

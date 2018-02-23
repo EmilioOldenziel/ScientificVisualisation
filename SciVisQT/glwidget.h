@@ -55,11 +55,12 @@ private:
     void setupVertexAttribs();
 
     int   windowWidth, windowHeight;      //size of the graphics window, in pixels
-    int DIM;
+    int   DIM;
     int   color_dir = 0;            //use direction color-coding or not
-    float vec_scale = 10;			//scaling of hedgehogs
-    int   draw_smoke = 1;           //draw the smoke or not
+    float vec_scale = 1;			//scaling of hedgehogs
+    int   draw_smoke = 0;           //draw the smoke or not
     int   draw_vecs = 1;            //draw the vector field or not
+
     const int COLOR_BLACKWHITE=0;   //different types of color mapping: black-and-white, rainbow, banded
     const int COLOR_RAINBOW=1;
     const int COLOR_HEAT=2;
