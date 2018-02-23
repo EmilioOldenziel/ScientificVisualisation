@@ -7,8 +7,6 @@
 #include <math.h>               //for various math functions
 #include <GL/glut.h>            //the GLUT graphics library
 
-
-
 //--- SIMULATION PARAMETERS ------------------------------------------------------------------------
 const int DIM = 50;				//size of simulation grid
 double dt = 0.4;				//simulation time step
@@ -33,8 +31,6 @@ const int COLOR_HEAT=3;
 const int COLOR_PARA=4;
 int   scalar_col = 0;           //method for scalar coloring
 int   frozen = 0;               //toggles on/off the animation
-
-
 
 //------ SIMULATION CODE STARTS HERE -----------------------------------------------------------------
 
@@ -435,6 +431,7 @@ void drag(int mx, int my)
 	// Compute the array index that corresponds to the cursor location
 	xi = (int)clamp((double)(DIM + 1) * ((double)mx / (double)winWidth));
 	yi = (int)clamp((double)(DIM + 1) * ((double)(winHeight - my) / (double)winHeight));
+	printf("%d %d" , xi, yi);
 
 	X = xi;
 	Y = yi;

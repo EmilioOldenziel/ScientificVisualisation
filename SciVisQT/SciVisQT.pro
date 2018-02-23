@@ -28,16 +28,14 @@ SOURCES += \
     mainwindow.cpp \
     glwidget.cpp \
     main.cpp \
-    logo.cpp \
     simulation.cpp
 
 HEADERS  += \
     window.h \
     mainwindow.h \
     glwidget.h \
-    logo.h \
     simulation.h
 
 FORMS    +=
 
-LIBS += -lglut
+LIBS += -lrfftw -lfftw -lGL -lglut

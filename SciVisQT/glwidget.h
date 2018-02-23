@@ -6,8 +6,9 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 #include <QMatrix4x4>
-#include "logo.h"
-
+#include <iostream>
+#include <rfftw.h>
+#include "simulation.h"
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 
 class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions
@@ -25,10 +26,8 @@ public:
     QSize sizeHint() const override;
 
 public slots:
-    void setXRotation(int angle);
-    void setYRotation(int angle);
-    void setZRotation(int angle);
     void cleanup();
+    void do_one_simulation_step();
 
 signals:
     void xRotationChanged(int angle);
@@ -41,38 +40,37 @@ protected:
     void resizeGL(int width, int height) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
-    void visualize();
-    void direction_to_color(float x, float y, int method);
-    void set_colormap(float vy);
-    void rainbow(float value,float* R,float* G,float* B);
     float max(float x, float y);
+    float min(float x, float y);
+    int clamp(float x);
+    void rainbow(float value,float* R,float* G,float* B);
+    void heatMap(float value,float* R,float* G,float* B);
+    float colorBands(float vy, int bands);
+    void colorYellow(float value,float* R,float* G,float* B);
+    void set_colormap(float vy);
+    void direction_to_color(float x, float y, int method);
+    void visualize();
 
 private:
     void setupVertexAttribs();
 
-    int   winWidth, winHeight;      //size of the graphics window, in pixels
+    int   windowWidth, windowHeight;      //size of the graphics window, in pixels
+    int DIM;
     int   color_dir = 0;            //use direction color-coding or not
-    float vec_scale = 1000;			//scaling of hedgehogs
-    int   draw_smoke = 0;           //draw the smoke or not
+    float vec_scale = 10;			//scaling of hedgehogs
+    int   draw_smoke = 1;           //draw the smoke or not
     int   draw_vecs = 1;            //draw the vector field or not
     const int COLOR_BLACKWHITE=0;   //different types of color mapping: black-and-white, rainbow, banded
     const int COLOR_RAINBOW=1;
-    const int COLOR_BANDS=2;
-    int   scalar_col = 0;           //method for scalar coloring
+    const int COLOR_HEAT=2;
+    const int COLOR_YELLOW = 3;
+    int   bands = 256;
+    int   scalar_col = 2;           //method for scalar coloring
     int   frozen = 0;               //toggles on/off the animation
 
-    bool m_core;
-    int m_xRot;
-    int m_yRot;
-    int m_zRot;
+    Simulation simulation;
+
     QPoint m_lastPos;
-    Logo m_logo;
-    QOpenGLVertexArrayObject m_vao;
-    QOpenGLBuffer m_logoVbo;
-    QOpenGLShaderProgram *m_program;
-    int m_projMatrixLoc;
-    int m_mvMatrixLoc;
-    int m_normalMatrixLoc;
     int m_lightPosLoc;
     static bool m_transparent;
 };

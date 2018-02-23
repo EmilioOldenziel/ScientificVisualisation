@@ -1,9 +1,33 @@
 #include "simulation.h"
+#include <cmath>
 
-simulation::simulation(int n)
+//Default Constructor
+Simulation::Simulation() {
+    // default values member variables
+    dt = 0.04;				//simulation time step
+    visc = 0.0001;				//fluid viscosity
+}
+
+//Destructor
+Simulation::~Simulation(){}
+fftw_real* Simulation::get_fx() const{return fx;}
+fftw_real* Simulation::get_fy() const{return fy;}
+fftw_real* Simulation::get_rho() const{return rho;}
+fftw_real* Simulation::get_rho0() const {return rho0;}
+fftw_real* Simulation::get_vx() const {return vx;}
+fftw_real* Simulation::get_vy() const {return vy;}
+fftw_real* Simulation::get_vx0() const {return vx0;}
+fftw_real* Simulation::get_vy0() const {return vy0;}
+
+double Simulation::get_dt() {return dt;}
+float Simulation::get_visc() {return visc;}
+
+//init_simulation: Initialize simulation data structures as a function of the grid size 'n'.
+//                 Although the simulation takes place on a 2D grid, we allocate all data structures as 1D arrays,
+//                 for compatibility with the FFTW numerical library.
+void Simulation::init_simulation(int n)
 {
     int i; size_t dim;
-
     dim     = n * 2*(n/2+1)*sizeof(fftw_real);        //Allocate data structures
     vx       = (fftw_real*) malloc(dim);
     vy       = (fftw_real*) malloc(dim);
@@ -21,84 +45,96 @@ simulation::simulation(int n)
     { vx[i] = vy[i] = vx0[i] = vy0[i] = fx[i] = fy[i] = rho[i] = rho0[i] = 0.0f; }
 }
 
-
 //FFT: Execute the Fast Fourier Transform on the dataset 'vx'.
 //     'dirfection' indicates if we do the direct (1) or inverse (-1) Fourier Transform
-void simulation::FFT(int direction,void* vx)
+void Simulation::FFT(int direction,void* vx)
 {
     if(direction==1) rfftwnd_one_real_to_complex(plan_rc,(fftw_real*)vx,(fftw_complex*)vx);
     else             rfftwnd_one_complex_to_real(plan_cr,(fftw_complex*)vx,(fftw_real*)vx);
 }
 
-int simulation::clamp(float x)
+int Simulation::clamp(float x)
 { return ((x)>=0.0?((int)(x)):(-((int)(1-(x))))); }
 
-float simulation::max(float x, float y)
+float Simulation::max(float x, float y)
 { return x < y ? x : y; }
 
 //solve: Solve (compute) one step of the fluid flow simulation
-void simulation::solve(int n, fftw_real* vx, fftw_real* vy, fftw_real* vx0, fftw_real* vy0, fftw_real visc, fftw_real dt)
+void Simulation::solve(int n, fftw_real* vx, fftw_real* vy, fftw_real* vx0, fftw_real* vy0, fftw_real visc, fftw_real dt)
 {
     fftw_real x, y, x0, y0, f, r, U[2], V[2], s, t;
     int i, j, i0, j0, i1, j1;
 
     for (i=0;i<n*n;i++)
-    { vx[i] += dt*vx0[i]; vx0[i] = vx[i]; vy[i] += dt*vy0[i]; vy0[i] = vy[i]; }
+    {
+        vx[i] += dt*vx0[i];
+        vx0[i] = vx[i];
+        vy[i] += dt*vy0[i];
+        vy0[i] = vy[i];
+    }
 
     for ( x=0.5f/n,i=0 ; i<n ; i++,x+=1.0f/n )
-       for ( y=0.5f/n,j=0 ; j<n ; j++,y+=1.0f/n )
-       {
-          x0 = n*(x-dt*vx0[i+n*j])-0.5f;
-          y0 = n*(y-dt*vy0[i+n*j])-0.5f;
-          i0 = clamp(x0); s = x0-i0;
-          i0 = (n+(i0%n))%n;
-          i1 = (i0+1)%n;
-          j0 = clamp(y0); t = y0-j0;
-          j0 = (n+(j0%n))%n;
-          j1 = (j0+1)%n;
-          vx[i+n*j] = (1-s)*((1-t)*vx0[i0+n*j0]+t*vx0[i0+n*j1])+s*((1-t)*vx0[i1+n*j0]+t*vx0[i1+n*j1]);
-          vy[i+n*j] = (1-s)*((1-t)*vy0[i0+n*j0]+t*vy0[i0+n*j1])+s*((1-t)*vy0[i1+n*j0]+t*vy0[i1+n*j1]);
-       }
+        for ( y=0.5f/n,j=0 ; j<n ; j++,y+=1.0f/n )
+        {
+            x0 = n*(x-dt*vx0[i+n*j])-0.5f;
+            y0 = n*(y-dt*vy0[i+n*j])-0.5f;
+            i0 = clamp(x0); s = x0-i0;
+            i0 = (n+(i0%n))%n;
+            i1 = (i0+1)%n;
+            j0 = clamp(y0); t = y0-j0;
+            j0 = (n+(j0%n))%n;
+            j1 = (j0+1)%n;
+            vx[i+n*j] = (1-s)*((1-t)*vx0[i0+n*j0]+t*vx0[i0+n*j1])+s*((1-t)*vx0[i1+n*j0]+t*vx0[i1+n*j1]);
+            vy[i+n*j] = (1-s)*((1-t)*vy0[i0+n*j0]+t*vy0[i0+n*j1])+s*((1-t)*vy0[i1+n*j0]+t*vy0[i1+n*j1]);
+        }
 
     for(i=0; i<n; i++)
-      for(j=0; j<n; j++)
-      {  vx0[i+(n+2)*j] = vx[i+n*j]; vy0[i+(n+2)*j] = vy[i+n*j]; }
+        for(j=0; j<n; j++)
+        {
+            vx0[i+(n+2)*j] = vx[i+n*j];
+            vy0[i+(n+2)*j] = vy[i+n*j];
+        }
 
-    this->FFT(1,vx0);
-    this->FFT(1,vy0);
+    FFT(1,vx0);
+    FFT(1,vy0);
 
     for (i=0;i<=n;i+=2)
     {
-       x = 0.5f*i;
-       for (j=0;j<n;j++)
-       {
-          y = j<=n/2 ? (fftw_real)j : (fftw_real)j-n;
-          r = x*x+y*y;
-          if ( r==0.0f ) continue;
-          f = (fftw_real)exp(-r*dt*visc);
-          U[0] = vx0[i  +(n+2)*j]; V[0] = vy0[i  +(n+2)*j];
-          U[1] = vx0[i+1+(n+2)*j]; V[1] = vy0[i+1+(n+2)*j];
+        x = 0.5f*i;
+        for (j=0;j<n;j++)
+        {
+            y = j<=n/2 ? (fftw_real)j : (fftw_real)j-n;
+            r = x*x+y*y;
+            if ( r==0.0f ) continue;
+            f = (fftw_real)exp(-r*dt*visc);
+            U[0] = vx0[i  +(n+2)*j];
+            V[0] = vy0[i  +(n+2)*j];
+            U[1] = vx0[i+1+(n+2)*j];
+            V[1] = vy0[i+1+(n+2)*j];
 
-          vx0[i  +(n+2)*j] = f*((1-x*x/r)*U[0]     -x*y/r *V[0]);
-          vx0[i+1+(n+2)*j] = f*((1-x*x/r)*U[1]     -x*y/r *V[1]);
-          vy0[i+  (n+2)*j] = f*(  -y*x/r *U[0] + (1-y*y/r)*V[0]);
-          vy0[i+1+(n+2)*j] = f*(  -y*x/r *U[1] + (1-y*y/r)*V[1]);
-       }
+            vx0[i  +(n+2)*j] = f*((1-x*x/r)*U[0]     -x*y/r *V[0]);
+            vx0[i+1+(n+2)*j] = f*((1-x*x/r)*U[1]     -x*y/r *V[1]);
+            vy0[i+  (n+2)*j] = f*(  -y*x/r *U[0] + (1-y*y/r)*V[0]);
+            vy0[i+1+(n+2)*j] = f*(  -y*x/r *U[1] + (1-y*y/r)*V[1]);
+        }
     }
 
-    this->FFT(-1,vx0);
-    this->FFT(-1,vy0);
+    FFT(-1,vx0);
+    FFT(-1,vy0);
 
     f = 1.0/(n*n);
     for (i=0;i<n;i++)
-       for (j=0;j<n;j++)
-       { vx[i+n*j] = f*vx0[i+(n+2)*j]; vy[i+n*j] = f*vy0[i+(n+2)*j]; }
+        for (j=0;j<n;j++)
+        {
+            vx[i+n*j] = f*vx0[i+(n+2)*j];
+            vy[i+n*j] = f*vy0[i+(n+2)*j];
+        }
 }
 
 
 // diffuse_matter: This function diffuses matter that has been placed in the velocity field. It's almost identical to the
 // velocity diffusion step in the function above. The input matter densities are in rho0 and the result is written into rho.
-void simulation::diffuse_matter(int n, fftw_real *vx, fftw_real *vy, fftw_real *rho, fftw_real *rho0, fftw_real dt)
+void Simulation::diffuse_matter(int n, fftw_real *vx, fftw_real *vy, fftw_real *rho, fftw_real *rho0, fftw_real dt)
 {
     fftw_real x, y, x0, y0, s, t;
     int i, j, i0, j0, i1, j1;
@@ -122,7 +158,7 @@ void simulation::diffuse_matter(int n, fftw_real *vx, fftw_real *vy, fftw_real *
 
 //set_forces: copy user-controlled forces to the force vectors that are sent to the solver.
 //            Also dampen forces and matter density to get a stable simulation.
-void simulation::set_forces(void)
+void Simulation::set_forces(int DIM)
 {
     int i;
     for (i = 0; i < DIM * DIM; i++)
@@ -135,19 +171,41 @@ void simulation::set_forces(void)
     }
 }
 
-
-//do_one_simulation_step: Do one complete cycle of the simulation:
-//      - set_forces:
-//      - solve:            read forces from the user
-//      - diffuse_matter:   compute a new set of velocities
-//      - gluPostRedisplay: draw a new visualization frame
-void simulation::do_one_simulation_step(void)
+void Simulation::drag(int mx, int my, int DIM, int winWidth, int winHeight)
 {
-    if (!frozen)
+    int xi,yi,X,Y;
+    double  dx, dy, len;
+    static int lmx=0,lmy=0;				//remembers last mouse location
+
+    // Compute the array index that corresponds to the cursor location
+    xi = (int)clamp((double)(DIM + 1) * ((double)mx / (double)winWidth));
+    yi = (int)clamp((double)(DIM + 1) * ((double)(winHeight - my) / (double)winHeight));
+
+    X = xi;
+    Y = yi;
+
+    if (X > (DIM - 1))
+        X = DIM - 1;
+    if (Y > (DIM - 1))
+        Y = DIM - 1;
+    if (X < 0)
+        X = 0;
+    if (Y < 0)
+        Y = 0;
+
+    // Add force at the cursor location
+    my = winHeight - my;
+    dx = mx - lmx;
+    dy = my - lmy;
+    len = sqrt(dx * dx + dy * dy);
+    if (len != 0.0)
     {
-      this->set_forces();
-      this->solve(DIM, vx, vy, vx0, vy0, visc, dt);
-      this->diffuse_matter(DIM, vx, vy, rho, rho0, dt);
-      //glutPostRedisplay();
+        dx *= 1.0 / len;
+        dy *= 1.0 / len;
     }
+    fx[Y * DIM + X] += dx;
+    fy[Y * DIM + X] += dy;
+    rho[Y * DIM + X] = 10.0f;
+    lmx = mx;
+    lmy = my;
 }

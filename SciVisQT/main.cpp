@@ -39,11 +39,6 @@ int main(int argc, char *argv[])
 
     MainWindow mainWindow;
 
-    GLWidget::setTransparent(parser.isSet(transparentOption));
-    if (GLWidget::isTransparent()) {
-        mainWindow.setAttribute(Qt::WA_TranslucentBackground);
-        mainWindow.setAttribute(Qt::WA_NoSystemBackground, false);
-    }
     mainWindow.resize(mainWindow.sizeHint());
     int desktopArea = QApplication::desktop()->width() *
                      QApplication::desktop()->height();
