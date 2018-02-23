@@ -55,10 +55,10 @@ void GLWidget::initializeGL()
 }
 
 float GLWidget::max(float x, float y)
-{ return x < y ? x : y; }
+{ return x < y ? y : x; }
 
 float GLWidget::min(float x, float y)
-{ return x > y ? x : y; }
+{ return x > y ? y : x; }
 
 int GLWidget::clamp(float x)
 { return ((x)>=0.0?((int)(x)):(-((int)(1-(x))))); }
@@ -72,9 +72,9 @@ void GLWidget::rainbow(float value,float* R,float* G,float* B)
     if (value>1)
         value=1;
     value = (6-2*dx)*value+dx;
-    *R = value;//max(0.0,(3-fabs(value-4)-fabs(value-5))/2);
-    *G = value;//max(0.0,(4-fabs(value-2)-fabs(value-4))/2);
-    *B = value;//max(0.0,(3-fabs(value-1)-fabs(value-2))/2);
+    *R = max(0.0,(3.0-fabs(value-4.0)-fabs(value-5.0))/2.0);
+    *G = max(0.0,(4.0-fabs(value-2.0)-fabs(value-4.0))/2.0);
+    *B = max(0.0,(3.0-fabs(value-1.0)-fabs(value-2.0))/2.0);
 }
 
 //Implementation of our own colormap
@@ -107,10 +107,8 @@ float GLWidget::colorBands(float vy, int bands){
 //set_colormap: Sets three different types of colormaps
 void GLWidget::set_colormap(float vy)
 {
-    vy = colorBands(vy, bands);
     float R,G,B;
     if (scalar_col==COLOR_BLACKWHITE){
-
         R = G = B = vy;
     }
     else if (scalar_col==COLOR_RAINBOW)

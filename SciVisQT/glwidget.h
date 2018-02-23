@@ -42,7 +42,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     float max(float x, float y);
     float min(float x, float y);
-    int clamp(float x);
+    int clamp(float x);\
     void rainbow(float value,float* R,float* G,float* B);
     void heatMap(float value,float* R,float* G,float* B);
     float colorBands(float vy, int bands);
@@ -65,7 +65,7 @@ private:
     const int COLOR_HEAT=2;
     const int COLOR_YELLOW = 3;
     int   bands = 256;
-    int   scalar_col = 2;           //method for scalar coloring
+    int   scalar_col = 0;           //method for scalar coloring
     int   frozen = 0;               //toggles on/off the animation
 
     Simulation simulation;
