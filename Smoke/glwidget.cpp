@@ -21,7 +21,6 @@ GLWidget::~GLWidget()
 
 void GLWidget::initializeGL()
 {
-    //glClearColor(0, 0, 0, 1);
 }
 
 float GLWidget::max(float x, float y)
@@ -176,7 +175,7 @@ void GLWidget::visualize(void)
             for (j = 0; j < DIM; j++)
             {
                 idx = (j * DIM) + i;
-                direction_to_color(simulation.get_vx()[idx],simulation.get_vy()[idx], color_dir);
+                direction_to_color(simulation.get_vx()[idx],simulation.get_vy()[idx],color_dir);
                 glVertex2f((wn + (fftw_real)i * wn) - 1, (hn + (fftw_real)j * hn) - 1);
                 glVertex2f(((wn + (fftw_real)i * wn) + vec_scale * simulation.get_vx()[idx]) - 1, ((hn + (fftw_real)j * hn) + vec_scale * simulation.get_vy()[idx]) -1);
             }
@@ -218,11 +217,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-
     float mx = event->localPos().x();
     float my = event->localPos().y();
     simulation.drag(mx,my, DIM, width(), height());
-
 }
 
 void GLWidget::toggle_smoke(bool checked){
@@ -243,7 +240,6 @@ void GLWidget::setColor(int c){
 
 void GLWidget::setColorBands(int b){
     bands = b;
-    printf("%d color bands \n", bands);
 }
 
 void GLWidget::setVecScale(int vs){
