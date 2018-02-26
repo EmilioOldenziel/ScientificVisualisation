@@ -19,6 +19,9 @@ public slots:
      void toggle_smoke(bool checked);
      void toggle_vecs(bool checked);
 
+     void setColor(int c);
+     void setColorBands(int b);
+
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
@@ -51,7 +54,7 @@ private:
     const int COLOR_YELLOW = 3;
     int   bands = 256;
 
-    int   scalar_col = 2;           //method for scalar coloring
+    int   scalar_col = 1;           //method for scalar coloring
     int   frozen = 0;               //toggles on/off the animation
 
     Simulation simulation;

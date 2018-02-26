@@ -242,3 +242,11 @@ void GLWidget::toggle_vecs(bool checked){
     draw_vecs = checked;
 }
 
+void GLWidget::setColor(int c){
+    scalar_col = c;
+}
+
+void GLWidget::setColorBands(int b){
+    bands = b;
+    printf("%d color bands \n", bands);
+}

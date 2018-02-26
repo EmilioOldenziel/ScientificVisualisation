@@ -16,9 +16,13 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_smoke_checkbox_toggled(bool checked);
 
+    void on_smoke_checkbox_toggled(bool checked);
     void on_vecs_checkbox_toggled(bool checked);
+
+    void on_colorBox_activated(const QString &arg1);
+
+    void on_bandsSlider_sliderMoved(int position);
 
 private:
     Ui::MainWindow *ui;
