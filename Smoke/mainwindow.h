@@ -26,6 +26,8 @@ private slots:
 
     void on_vecScaleSlider_sliderMoved(int position);
 
+    void on_vecsColor_checkbox_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
 };

@@ -18,10 +18,11 @@ public slots:
      void do_one_simulation_step();
      void toggle_smoke(bool checked);
      void toggle_vecs(bool checked);
+     void toggleColorDirection(bool checked);
 
      void setColor(int c);
      void setColorBands(int b);
-     void setVecScale(int vs);
+     void setVecScale(int vs);     
 
 protected:
     void initializeGL();

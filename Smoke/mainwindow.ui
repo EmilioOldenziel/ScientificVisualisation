@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1307</width>
-    <height>621</height>
+    <width>804</width>
+    <height>610</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -202,13 +205,29 @@
      <number>25</number>
     </property>
    </widget>
+   <widget class="QCheckBox" name="vecsColor_checkbox">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>60</y>
+      <width>82</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Vecs Color</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1307</width>
+     <width>804</width>
      <height>22</height>
     </rect>
    </property>

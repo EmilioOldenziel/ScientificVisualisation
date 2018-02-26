@@ -171,12 +171,12 @@ void GLWidget::visualize(void)
 
     if (draw_vecs)
     {
-        glBegin(GL_LINES);				//draw velocities
+        glBegin(GL_LINES);
         for (i = 0; i < DIM; i++)
             for (j = 0; j < DIM; j++)
             {
                 idx = (j * DIM) + i;
-                direction_to_color(simulation.get_vx()[idx],simulation.get_vy()[idx],color_dir);
+                direction_to_color(simulation.get_vx()[idx],simulation.get_vy()[idx], color_dir);
                 glVertex2f((wn + (fftw_real)i * wn) - 1, (hn + (fftw_real)j * hn) - 1);
                 glVertex2f(((wn + (fftw_real)i * wn) + vec_scale * simulation.get_vx()[idx]) - 1, ((hn + (fftw_real)j * hn) + vec_scale * simulation.get_vy()[idx]) -1);
             }
@@ -231,6 +231,10 @@ void GLWidget::toggle_smoke(bool checked){
 
 void GLWidget::toggle_vecs(bool checked){
     draw_vecs = checked;
+}
+
+void GLWidget::toggleColorDirection(bool checked){
+    color_dir = checked;
 }
 
 void GLWidget::setColor(int c){
