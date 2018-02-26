@@ -221,7 +221,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     float mx = event->localPos().x();
     float my = event->localPos().y();
-
     simulation.drag(mx,my, DIM, width(), height());
 
 }
