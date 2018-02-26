@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-02-14T13:55:08
+# Project created by QtCreator 2018-02-26T10:29:52
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = SciVisQT
+TARGET = Smoke
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -23,19 +23,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += \
-    window.cpp \
-    mainwindow.cpp \
-    glwidget.cpp \
-    main.cpp \
-    simulation.cpp
+SOURCES += main.cpp\
+        mainwindow.cpp \
+        glwidget.cpp \
+        simulation.cpp
 
-HEADERS  += \
-    window.h \
-    mainwindow.h \
+HEADERS  += mainwindow.h \
     glwidget.h \
     simulation.h
 
-FORMS    +=
+FORMS    += mainwindow.ui
 
 LIBS += -lrfftw -lfftw -lGL -lglut

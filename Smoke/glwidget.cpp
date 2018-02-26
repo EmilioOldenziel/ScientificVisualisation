@@ -1,15 +1,13 @@
 #include "glwidget.h"
 #include <QMouseEvent>
-#include <QOpenGLShaderProgram>
-#include <QCoreApplication>
 #include <math.h>
 #include <QTimer>
 
-bool GLWidget::m_transparent = false;
 
 GLWidget::GLWidget(QWidget *parent)
-    : QOpenGLWidget(parent){
-    DIM = 50;
+    : QOpenGLWidget(parent)
+{
+    DIM = 100;
     simulation.init_simulation(DIM);
     QTimer *timer = new QTimer;
     timer->start();
@@ -18,40 +16,12 @@ GLWidget::GLWidget(QWidget *parent)
 
 GLWidget::~GLWidget()
 {
-    cleanup();
+
 }
-
-QSize GLWidget::minimumSizeHint() const
-{
-    return QSize(50, 50);
-}
-
-QSize GLWidget::sizeHint() const
-{
-    return QSize(400, 400);
-}
-
-
-void GLWidget::cleanup()
-{
-    makeCurrent();
-    doneCurrent();
-}
-
 
 void GLWidget::initializeGL()
 {
-    // In this example the widget's corresponding top-level window can change
-    // several times during the widget's lifetime. Whenever this happens, the
-    // QOpenGLWidget's associated context is destroyed and a new one is created.
-    // Therefore we have to be prepared to clean up the resources on the
-    // aboutToBeDestroyed() signal, instead of the destructor. The emission of
-    // the signal will be followed by an invocation of initializeGL() where we
-    // can recreate all resources.
-    connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &GLWidget::cleanup);
-
-    initializeOpenGLFunctions();
-    glClearColor(1, 1, 0, 1);
+    //glClearColor(1, 1, 0, 1);
 }
 
 float GLWidget::max(float x, float y)
@@ -109,6 +79,7 @@ float GLWidget::colorBands(float vy, int bands){
 //set_colormap: Sets three different types of colormaps
 void GLWidget::set_colormap(float vy)
 {
+    vy = colorBands(vy, bands);
     float R,G,B;
     if (scalar_col==COLOR_BLACKWHITE){
         R = G = B = vy;
@@ -225,8 +196,6 @@ void GLWidget::do_one_simulation_step()
     update();
 }
 
-
-
 void GLWidget::paintGL()
 {
     glEnable(GL_DEPTH_TEST);
@@ -236,12 +205,12 @@ void GLWidget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable (GL_BLEND);
-    glClearColor(0.0,0.0,1,0.0);
 
     glMatrixMode(GL_MODELVIEW);
     //glLoadIdentity();
     visualize();
     glFlush();
+
 }
 
 void GLWidget::resizeGL(int w, int h)
@@ -264,3 +233,4 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     simulation.drag(mx,my, DIM, width(), height());
 
 }
+

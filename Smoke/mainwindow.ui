@@ -6,21 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>921</width>
+    <height>601</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="MyGLWidget" name="myGLWidget">
+   <widget class="GLWidget" name="openGLWidget">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>10</y>
-      <width>300</width>
-      <height>200</height>
+      <x>9</x>
+      <y>9</y>
+      <width>651</width>
+      <height>521</height>
      </rect>
     </property>
    </widget>
@@ -30,7 +30,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>921</width>
      <height>22</height>
     </rect>
    </property>
@@ -48,9 +48,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>MyGLWidget</class>
+   <class>GLWidget</class>
    <extends>QOpenGLWidget</extends>
-   <header location="global">myglwidget.h</header>
+   <header>glwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
