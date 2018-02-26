@@ -7,7 +7,7 @@
 GLWidget::GLWidget(QWidget *parent)
     : QOpenGLWidget(parent)
 {
-    DIM = 100;
+    DIM = 50;
     simulation.init_simulation(DIM);
     QTimer *timer = new QTimer;
     timer->start();
@@ -37,16 +37,14 @@ int GLWidget::clamp(float x)
 void GLWidget::rainbow(float value,float* R,float* G,float* B)
 {
     const float dx=0.8;
-    if (value<0){
+    if (value<0)
         value=0;
-    }
-    if (value>1){
+    if (value>1)
         value=1;
-    }
     value = (6-2*dx)*value+dx;
-    *R = max(0.0,(3.0-fabs(value-4.0)-fabs(value-5.0))/2.0);
-    *G = max(0.0,(4.0-fabs(value-2.0)-fabs(value-4.0))/2.0);
-    *B = max(0.0,(3.0-fabs(value-1.0)-fabs(value-2.0))/2.0);
+    *R = max(0.0,(3-fabs(value-4)-fabs(value-5))/2);
+    *G = max(0.0,(4-fabs(value-2)-fabs(value-4))/2);
+    *B = max(0.0,(3-fabs(value-1)-fabs(value-2))/2);
 }
 
 //Implementation of our own colormap
@@ -188,29 +186,23 @@ void GLWidget::visualize(void)
 
 void GLWidget::do_one_simulation_step()
 {
-    simulation.set_forces(DIM);
-    simulation.solve(DIM, simulation.get_vx(), simulation.get_vy(), simulation.get_vx0(),
-                     simulation.get_vy0(), simulation.get_visc(), simulation.get_dt());
-    simulation.diffuse_matter(DIM, simulation.get_vx(), simulation.get_vy(),
-                              simulation.get_rho(), simulation.get_rho0(), simulation.get_dt());
-    update();
+    if(!frozen){
+        simulation.set_forces(DIM);
+        simulation.solve(DIM, simulation.get_vx(), simulation.get_vy(), simulation.get_vx0(),
+                         simulation.get_vy0(), simulation.get_visc(), simulation.get_dt());
+        simulation.diffuse_matter(DIM, simulation.get_vx(), simulation.get_vy(),
+                                  simulation.get_rho(), simulation.get_rho0(), simulation.get_dt());
+        update();
+    }
 }
 
 void GLWidget::paintGL()
 {
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_COLOR_TABLE);
-    glEnable(GL_SMOOTH);
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable (GL_BLEND);
-
     glMatrixMode(GL_MODELVIEW);
-    //glLoadIdentity();
+    glLoadIdentity();
     visualize();
     glFlush();
-
 }
 
 void GLWidget::resizeGL(int w, int h)
@@ -249,4 +241,8 @@ void GLWidget::setColor(int c){
 void GLWidget::setColorBands(int b){
     bands = b;
     printf("%d color bands \n", bands);
+}
+
+void GLWidget::setVecScale(int vs){
+    vec_scale = vs;
 }

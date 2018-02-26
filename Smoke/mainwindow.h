@@ -24,6 +24,8 @@ private slots:
 
     void on_bandsSlider_sliderMoved(int position);
 
+    void on_vecScaleSlider_sliderMoved(int position);
+
 private:
     Ui::MainWindow *ui;
 };

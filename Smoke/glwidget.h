@@ -21,6 +21,7 @@ public slots:
 
      void setColor(int c);
      void setColorBands(int b);
+     void setVecScale(int vs);
 
 protected:
     void initializeGL();
@@ -54,7 +55,7 @@ private:
     const int COLOR_YELLOW = 3;
     int   bands = 256;
 
-    int   scalar_col = 1;           //method for scalar coloring
+    int   scalar_col = 0;           //method for scalar coloring
     int   frozen = 0;               //toggles on/off the animation
 
     Simulation simulation;

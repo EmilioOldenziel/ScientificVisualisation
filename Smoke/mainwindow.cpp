@@ -25,14 +25,14 @@ void MainWindow::on_vecs_checkbox_toggled(bool checked)
 
 void MainWindow::on_colorBox_activated(const QString &arg1)
 {
+    if(arg1 == "black-white"){
+        ui->openGLWidget->setColor(0);
+    }
     if(arg1 == "rainbow"){
         ui->openGLWidget->setColor(1);
     }
     if(arg1 == "heatmap"){
         ui->openGLWidget->setColor(2);
-    }
-    if(arg1 == "grayscale"){
-        ui->openGLWidget->setColor(0);
     }
     if(arg1 == "yellow"){
         ui->openGLWidget->setColor(3);
@@ -43,4 +43,10 @@ void MainWindow::on_bandsSlider_sliderMoved(int position)
 {
     ui->openGLWidget->setColorBands(position);
     ui->bandsLabel->setText(QStringLiteral("Number of bands: %1").arg(position));
+}
+
+void MainWindow::on_vecScaleSlider_sliderMoved(int position)
+{
+    ui->openGLWidget->setVecScale(position);
+    ui->vecScaleLabel->setText(QStringLiteral("Vector scaling: %1").arg(position));
 }
