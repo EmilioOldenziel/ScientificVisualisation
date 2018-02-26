@@ -21,7 +21,7 @@ GLWidget::~GLWidget()
 
 void GLWidget::initializeGL()
 {
-    //glClearColor(1, 1, 0, 1);
+    //glClearColor(0, 0, 0, 1);
 }
 
 float GLWidget::max(float x, float y)
@@ -232,5 +232,13 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     simulation.drag(mx,my, DIM, width(), height());
 
+}
+
+void GLWidget::toggle_smoke(bool checked){
+    draw_smoke = checked;
+}
+
+void GLWidget::toggle_vecs(bool checked){
+    draw_vecs = checked;
 }
 
