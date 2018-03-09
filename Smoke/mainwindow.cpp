@@ -22,6 +22,7 @@ void MainWindow::on_smoke_checkbox_toggled(bool checked)
     ui->bandsLabel->setEnabled(checked);
     ui->bandsSlider->setEnabled(checked);
     ui->colorBox->setEnabled(checked);
+    ui->colorScalingBox->setEnabled(checked);
 }
 
 // turn gliphs on/off
@@ -47,7 +48,7 @@ void MainWindow::on_colorBox_activated(const QString &arg1)
     if(arg1 == "heatmap"){
         ui->openGLWidget->setColor(2);
     }
-    if(arg1 == "yellow"){
+    if(arg1 == "zebra"){
         ui->openGLWidget->setColor(3);
     }
 }
@@ -70,4 +71,64 @@ void MainWindow::on_vecScaleSlider_sliderMoved(int position)
 void MainWindow::on_vecsColor_checkbox_clicked(bool checked)
 {
     ui->openGLWidget->toggleColorDirection(checked);
+}
+
+void MainWindow::on_saturationSlider_sliderMoved(int position)
+{
+    float pos;
+    if(position != 0)
+        pos = position/100.00;
+    else
+        pos = 0;
+
+    ui->openGLWidget->setSaturation(pos);
+    ui->saturationLabel->setText(QStringLiteral("Saturation: %1").arg(pos));
+}
+
+void MainWindow::on_hueSlider_sliderMoved(int position)
+{
+    float pos;
+    if(position != 0)
+        pos = position/100.00;
+    else
+        pos = 0;
+
+    ui->openGLWidget->setHue(pos);
+    ui->hueLabel->setText(QStringLiteral("Hue: %1").arg(pos));
+}
+
+void MainWindow::on_colorScalingBox_toggled(bool checked)
+{
+    ui->openGLWidget->toggleColorScaling(checked);
+    ui->colorScalingMaxSlider->setEnabled(checked);
+    ui->colorScalingMinSlider->setEnabled(checked);
+}
+
+void MainWindow::on_colorScalingMaxSlider_sliderMoved(int position)
+{
+    ui->openGLWidget->setColorScaleMax(position);
+}
+
+void MainWindow::on_colorScalingMinSlider_sliderMoved(int position)
+{
+    ui->openGLWidget->setColorScaleMin(position);
+}
+
+void MainWindow::on_colorClampingBox_toggled(bool checked)
+{
+    ui->openGLWidget->toggleColorClamping(checked);
+    ui->colorClampingMaxSlider->setEnabled(checked);
+    ui->colorClampingMinSlider->setEnabled(checked);
+}
+
+void MainWindow::on_colorClampingMinSlider_sliderMoved(int position)
+{
+    ui->openGLWidget->setColorClampMin(position);
+
+}
+
+void MainWindow::on_colorClampingMaxSlider_sliderMoved(int position)
+{
+    ui->openGLWidget->setColorClampMax(position);
+
 }

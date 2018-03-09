@@ -6,6 +6,7 @@
 #include <rfftw.h>
 #include "simulation.h"
 
+
 class GLWidget : public QOpenGLWidget
 {
     Q_OBJECT
@@ -19,11 +20,18 @@ public slots:
      void toggle_smoke(bool checked);
      void toggle_vecs(bool checked);
      void toggleColorDirection(bool checked);
+     void toggleColorScaling(bool checked);
+     void toggleColorClamping(bool checked);
 
      void setColor(int c);
      void setColorBands(int b);
-     void setVecScale(int vs);     
-
+     void setVecScale(int vs);
+     void setSaturation(float sat);
+     void setHue(float h);
+     void setColorScaleMax(int max);
+     void setColorScaleMin(int min);
+     void setColorClampMax(int max);
+     void setColorClampMin(int min);
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
@@ -33,14 +41,18 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     float max(float x, float y);
     float min(float x, float y);
-    int clamp(float x);
+    void drawColorBar();
+    float clamp(float value, float min, float max);
     void rainbow(float value,float* R,float* G,float* B);
     void heatMap(float value,float* R,float* G,float* B);
+    void zebra(float value,float* R,float* G,float* B);
     float colorBands(float vy, int bands);
-    void colorYellow(float value,float* R,float* G,float* B);
     void set_colormap(float vy);
     void direction_to_color(float x, float y, int method);
     void visualize();
+
+    void rgb2hsv(float r, float g, float b, float* H, float* S, float* V);
+    void hsv2rgb(float* R, float* G, float* B, float H, float S, float V);
 
 private:
     int   windowWidth, windowHeight;      //size of the graphics window, in pixels
@@ -53,8 +65,18 @@ private:
     const int COLOR_BLACKWHITE=0;   //different types of color mapping: black-and-white, rainbow, banded
     const int COLOR_RAINBOW=1;
     const int COLOR_HEAT=2;
-    const int COLOR_YELLOW = 3;
+    const int COLOR_ZEBRA=3;
     int   bands = 256;
+    float   saturation = 1.0;
+    float   hue = 0.0;
+
+    float color_scale_min = 0.0;
+    float color_scale_max = 1.0;
+    int color_scaling = 0;
+
+    float color_clamp_min = 0.0;
+    float color_clamp_max = 1.0;
+    int color_clamping = 0;
 
     int   scalar_col = 0;           //method for scalar coloring
     int   frozen = 0;               //toggles on/off the animation

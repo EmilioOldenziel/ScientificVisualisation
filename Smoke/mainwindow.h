@@ -28,6 +28,22 @@ private slots:
 
     void on_vecsColor_checkbox_clicked(bool checked);
 
+    void on_saturationSlider_sliderMoved(int position);
+
+    void on_hueSlider_sliderMoved(int position);
+
+    void on_colorScalingBox_toggled(bool checked);
+
+    void on_colorScalingMaxSlider_sliderMoved(int position);
+
+    void on_colorScalingMinSlider_sliderMoved(int position);
+
+    void on_colorClampingBox_toggled(bool checked);
+
+    void on_colorClampingMinSlider_sliderMoved(int position);
+
+    void on_colorClampingMaxSlider_sliderMoved(int position);
+
 private:
     Ui::MainWindow *ui;
 };

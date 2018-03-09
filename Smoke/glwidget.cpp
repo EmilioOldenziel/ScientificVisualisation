@@ -2,7 +2,7 @@
 #include <QMouseEvent>
 #include <math.h>
 #include <QTimer>
-
+#include <QColor>
 
 GLWidget::GLWidget(QWidget *parent)
     : QOpenGLWidget(parent)
@@ -29,8 +29,37 @@ float GLWidget::max(float x, float y)
 float GLWidget::min(float x, float y)
 { return x > y ? y : x; }
 
-int GLWidget::clamp(float x)
-{ return ((x)>=0.0?((int)(x)):(-((int)(1-(x))))); }
+float GLWidget::clamp(float value, float min, float max)
+{
+    if (value < min)
+        value = min;
+    else if (value > max)
+        value = max;
+    return value;
+}
+
+//draw colorbar besides the simulation
+void GLWidget::drawColorBar()
+{
+    glPushMatrix();
+    glBegin(GL_QUADS);
+
+    float offset = (0.85);
+    float bar_width = (0.1);
+    float bar_height = (0.0075);
+
+    for(int i = -100; i<= 100; i++){
+        set_colormap((i+100)*0.5*0.01);
+        glVertex3f(offset,              i*bar_height,       0.0);
+        glVertex3f(offset+bar_width,    i*bar_height,       0.0);
+        glVertex3f(offset,              (i+1)*bar_height,   0.0);
+        glVertex3f(offset+bar_width,    (i+1)*bar_height,   0.0);
+    }
+    glEnd();
+    glPopMatrix();
+}
+
+
 
 //rainbow: Implements a color palette, mapping the scalar 'value' to a rainbow color RGB
 void GLWidget::rainbow(float value,float* R,float* G,float* B)
@@ -46,23 +75,27 @@ void GLWidget::rainbow(float value,float* R,float* G,float* B)
     *B = max(0.0,(3-fabs(value-1)-fabs(value-2))/2);
 }
 
-//Implementation of our own colormap
+//Implementation of the heatmap colormap (page 155)
 void GLWidget::heatMap(float value,float* R,float* G,float* B)
 {
    if (value<0) value=0; if (value>1) value=1;
-   *R = clamp((4*value)-0.25);
-   *G = clamp((4*value)-0.5);
-   *B = clamp((4*value)-0.75);
+   *R = max(0.0f, -((value-0.9)*(value-0.9))+1);
+   *G = max(0.0f, -((value-1.5)*(value-1.5))+1);
+   *B = 0;
 }
 
-void GLWidget::colorYellow(float value,float* R,float* G,float* B)
+//Implementation of the zebra colormap (page 156)
+void GLWidget::zebra(float value,float* R,float* G,float* B)
 {
-   if (value<0) value=0; if (value>1) value=1;
-   *R = clamp((3*value)-0.33);
-   *G = clamp((3*value)-0.33);
-   *B = clamp((3*value)-0.67);
-}
+    if (value<0) value=0; if (value>1) value=1;
+    if (int ((value*100)) % 25){
+        *R = *G = *B = 1;
 
+    }else{
+        *R = *G = *B = 0;
+
+    }
+}
 
 float GLWidget::colorBands(float vy, int bands){
     int NLEVELS = bands;
@@ -72,10 +105,61 @@ float GLWidget::colorBands(float vy, int bands){
     return vy;
 }
 
+void GLWidget::rgb2hsv(float r, float g, float b, float* H, float* S, float* V){
+    float M = max(r, max(g, b));
+    float m = min(r, min(g, b));
+    float d = M-m;
+    *V = M;
+    *S = (M>0.00001)? d/M:0;
+    if (*S==0)
+        *H=0;
+    else{
+        if(r==M)
+            *H = (g-b)/d;
+        else{
+            if (g==M)
+                *H = 2 + (b-r)/d;
+            else
+                *H = 4 + (r-g)/d;
+            }
+        *H /= 6;
+        if (*H<0)
+            *H += 1;
+    }
+}
+
+void GLWidget::hsv2rgb(float* R, float* G, float* B, float H, float S, float V){
+    int hueCase = (int)(H*6);
+    float frac = 6*H-hueCase;
+    float lx = V*(1-S);
+    float ly = V*(1-S*frac);
+    float lz = V*(1-S*(1-frac));
+
+    switch(hueCase){
+        case 0:
+        case 6: *R=V;  *G=lz; *B=lx; break;
+        case 1: *R=ly; *G=V;  *B=lx; break;
+        case 2: *R=lx; *G=V;  *B=lz; break;
+        case 3: *R=lx; *G=ly; *B=V; break;
+        case 4: *R=lz; *G=lx; *B=V; break   ;
+        case 5: *R=V;  *G=lx; *B=ly; break;
+    }
+}
+
+
 
 //set_colormap: Sets three different types of colormaps
 void GLWidget::set_colormap(float vy)
 {
+    //Color scaling
+    if(color_scaling && color_scale_max > color_scale_min)
+        vy = color_scale_min + vy*(color_scale_max - color_scale_min);
+
+    //Color clamping
+    if (color_clamping && color_clamp_max > color_clamp_min)
+        (vy < color_clamp_min ? vy = color_clamp_min: (vy > color_clamp_max ? vy = color_clamp_max : vy = vy));
+
+
     vy = colorBands(vy, bands);
     float R,G,B;
     if (scalar_col==COLOR_BLACKWHITE){
@@ -85,9 +169,17 @@ void GLWidget::set_colormap(float vy)
         rainbow(vy,&R,&G,&B);
     else if (scalar_col==COLOR_HEAT)
         heatMap(vy,&R,&G,&B);
-    else if (scalar_col==COLOR_YELLOW)
-        colorYellow(vy,&R,&G,&B);
-    glColor3f(R,G,B);
+    else if (scalar_col==COLOR_ZEBRA)
+        zebra(vy,&R,&G,&B);
+
+    float H,S,V;
+    rgb2hsv(R, G, B, &H, &S, &V);
+    H = (hue/3.14)+H;
+    H = clamp(H, 0.00, 1.00);
+    S = saturation*S;
+    S = clamp(S, 0.00, 1.00);
+    hsv2rgb(&R, &G, &B, H, S, V);
+    glColor3f(R, G, B);
 }
 
 //direction_to_color: Set the current color by mapping a direction vector (x,y), using
@@ -181,6 +273,7 @@ void GLWidget::visualize(void)
             }
         glEnd();
     }
+    drawColorBar();
 }
 
 void GLWidget::do_one_simulation_step()
@@ -244,4 +337,39 @@ void GLWidget::setColorBands(int b){
 
 void GLWidget::setVecScale(int vs){
     vec_scale = vs;
+}
+
+void GLWidget::setSaturation(float sat){
+    saturation = sat;
+}
+
+void GLWidget::setHue(float h){
+    hue = h;
+}
+
+void GLWidget::toggleColorScaling(bool checked){
+    color_scaling = checked;
+}
+
+void GLWidget::setColorScaleMax(int max){
+    color_scale_max = max*0.01;
+}
+
+
+void GLWidget::setColorScaleMin(int min){
+    color_scale_min = (50-min)*0.01;
+}
+
+
+void GLWidget::toggleColorClamping(bool checked){
+    color_clamping = checked;
+}
+
+void GLWidget::setColorClampMax(int max){
+    color_clamp_max = max*0.01;
+}
+
+
+void GLWidget::setColorClampMin(int min){
+    color_clamp_min = (50-min)*0.01;
 }
