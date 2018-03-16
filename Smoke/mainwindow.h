@@ -44,6 +44,14 @@ private slots:
 
     void on_colorClampingMaxSlider_sliderMoved(int position);
 
+    void on_dataSetBox_activated(const QString &arg1);
+
+    void on_vectorDataSetBox_activated(const QString &arg1);
+
+    void on_glyphSliderY_sliderMoved(int position);
+
+    void on_glyphSliderX_sliderMoved(int position);
+
 private:
     Ui::MainWindow *ui;
 };

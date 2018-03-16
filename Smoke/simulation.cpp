@@ -16,6 +16,7 @@ fftw_real* Simulation::get_rho() const{return rho;}
 fftw_real* Simulation::get_rho0() const {return rho0;}
 fftw_real* Simulation::get_vx() const {return vx;}
 fftw_real* Simulation::get_vy() const {return vy;}
+float Simulation::get_length(float x, float y) const{return sqrt(x+x + y*y);}
 fftw_real* Simulation::get_vx0() const {return vx0;}
 fftw_real* Simulation::get_vy0() const {return vy0;}
 
@@ -87,12 +88,22 @@ void Simulation::solve(int n, fftw_real* vx, fftw_real* vy, fftw_real* vx0, fftw
             vx[i+n*j] = (1-s)*((1-t)*vx0[i0+n*j0]+t*vx0[i0+n*j1])+s*((1-t)*vx0[i1+n*j0]+t*vx0[i1+n*j1]);
             vy[i+n*j] = (1-s)*((1-t)*vy0[i0+n*j0]+t*vy0[i0+n*j1])+s*((1-t)*vy0[i1+n*j0]+t*vy0[i1+n*j1]);
         }
-
+    min_v = 1;
+    max_v = 0;
     for(i=0; i<n; i++)
         for(j=0; j<n; j++)
         {
             vx0[i+(n+2)*j] = vx[i+n*j];
             vy0[i+(n+2)*j] = vy[i+n*j];
+
+
+            float vm = get_length(vx0[i+(n+2)*j], vy0[i+(n+2)*j]);
+            if(vm < min_v){
+                min_v = vm;
+            }
+            if(vm > max_v){
+                max_v = vm;
+            }
         }
 
     FFT(1,vx0);
@@ -156,7 +167,7 @@ void Simulation::diffuse_matter(int n, fftw_real *vx, fftw_real *vy, fftw_real *
         }
 }
 
-//set_forces: copy user-controlled forces to the force vectors that are sent to the solver.
+//forces: copy user-controlled forces to the force vectors that are sent to the solver.
 //            Also dampen forces and matter density to get a stable simulation.
 void Simulation::set_forces(int DIM)
 {
@@ -168,6 +179,14 @@ void Simulation::set_forces(int DIM)
         fy[i] *= 0.85;
         vx0[i]    = fx[i];
         vy0[i]    = fy[i];
+
+        float fm = get_length(fx[i], fy[i]);
+        if(fm < min_f){
+            min_f = fm;
+        }
+        if(fm > max_f){
+            max_f = fm;
+        }
     }
 }
 

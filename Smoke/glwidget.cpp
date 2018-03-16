@@ -159,7 +159,6 @@ void GLWidget::set_colormap(float vy)
     if (color_clamping && color_clamp_max > color_clamp_min)
         (vy < color_clamp_min ? vy = color_clamp_min: (vy > color_clamp_max ? vy = color_clamp_max : vy = vy));
 
-
     vy = colorBands(vy, bands);
     float R,G,B;
     if (scalar_col==COLOR_BLACKWHITE){
@@ -212,6 +211,23 @@ void GLWidget::direction_to_color(float x, float y, int method)
     glColor3f(r,g,b);
 }
 
+float GLWidget:: get_scalar(int i){
+    switch(scalar_data_set){
+        case 0: return simulation.get_rho()[i];
+        case 1: {
+            fftw_real* vx = simulation.get_vx();
+            fftw_real* vy = simulation.get_vy();
+            return simulation.get_length(vx[i], vy[i]);
+        };
+        case 2: {
+            fftw_real* fx = simulation.get_fx();
+            fftw_real* fy = simulation.get_fy();
+            return simulation.get_length(fx[i], fy[i]);
+        };
+    }
+
+}
+
 //visualize: This is the main visualization function
 void GLWidget::visualize(void)
 {
@@ -247,14 +263,15 @@ void GLWidget::visualize(void)
                 py3 = hn + (fftw_real)j * hn;
                 idx3 = (j * DIM) + (i + 1);
 
-                set_colormap(simulation.get_rho()[idx0]);    glVertex2f(px0-1, py0-1);
-                set_colormap(simulation.get_rho()[idx1]);    glVertex2f(px1-1, py1-1);
-                set_colormap(simulation.get_rho()[idx2]);    glVertex2f(px2-1, py2-1);
+
+                set_colormap(get_scalar(idx0));    glVertex2f(px0-1, py0-1);
+                set_colormap(get_scalar(idx1));    glVertex2f(px1-1, py1-1);
+                set_colormap(get_scalar(idx2));    glVertex2f(px2-1, py2-1);
 
 
-                set_colormap(simulation.get_rho()[idx0]);    glVertex2f(px0-1, py0-1);
-                set_colormap(simulation.get_rho()[idx2]);    glVertex2f(px2-1, py2-1);
-                set_colormap(simulation.get_rho()[idx3]);    glVertex2f(px3-1, py3-1);
+                set_colormap(get_scalar(idx0));    glVertex2f(px0-1, py0-1);
+                set_colormap(get_scalar(idx2));    glVertex2f(px2-1, py2-1);
+                set_colormap(get_scalar(idx3));    glVertex2f(px3-1, py3-1);
             }
         }
         glEnd();
@@ -262,14 +279,26 @@ void GLWidget::visualize(void)
 
     if (draw_vecs)
     {
+        float vector_x, vector_y, length;
         glBegin(GL_LINES);
         for (i = 0; i < DIM; i++)
             for (j = 0; j < DIM; j++)
             {
                 idx = (j * DIM) + i;
-                direction_to_color(simulation.get_vx()[idx],simulation.get_vy()[idx],color_dir);
+                if(vector_data_set){
+                    length = simulation.get_length(simulation.get_fx()[idx], simulation.get_fy()[idx]);
+                    vector_x = (simulation.get_fx()[idx]/length - simulation.min_f)/(simulation.max_f - simulation.min_f);
+                    vector_y = (simulation.get_fy()[idx]/length - simulation.min_f)/(simulation.max_f - simulation.min_f);
+
+                }
+                else{
+                    length = simulation.get_length(simulation.get_vx()[idx], simulation.get_vy()[idx]);
+                    vector_x = (simulation.get_vx()[idx]/length - simulation.min_v)/(simulation.max_v - simulation.min_v);
+                    vector_y = (simulation.get_vy()[idx]/length - simulation.min_v)/(simulation.max_v - simulation.min_v);
+                }
+                direction_to_color(vector_x,vector_y,color_dir);
                 glVertex2f((wn + (fftw_real)i * wn) - 1, (hn + (fftw_real)j * hn) - 1);
-                glVertex2f(((wn + (fftw_real)i * wn) + vec_scale * simulation.get_vx()[idx]) - 1, ((hn + (fftw_real)j * hn) + vec_scale * simulation.get_vy()[idx]) -1);
+                glVertex2f(((wn + (fftw_real)i * wn) + vec_scale * vector_x) - 1, ((hn + (fftw_real)j * hn) + vec_scale * vector_y) -1);
             }
         glEnd();
     }
@@ -369,7 +398,22 @@ void GLWidget::setColorClampMax(int max){
     color_clamp_max = max*0.01;
 }
 
-
 void GLWidget::setColorClampMin(int min){
     color_clamp_min = (50-min)*0.01;
+}
+
+void GLWidget:: setScalarDataSet(int value){
+    scalar_data_set = value;
+}
+
+void GLWidget:: setVectorDataSet(int value){
+    vector_data_set = value;
+}
+
+void GLWidget:: setGlyphsSampleAmountX(int value){
+    glyph_sample_amt_x = value;
+}
+
+void GLWidget:: setGlyphsSampleAmountY(int value){
+    glyph_sample_amt_y = value;
 }

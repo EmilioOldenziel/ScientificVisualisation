@@ -27,17 +27,24 @@ public:
     fftw_real* get_vy() const;
     fftw_real* get_vx0() const;
     fftw_real* get_vy0() const;
-
     int dim;
 
     double get_dt();
     float get_visc();
+    float get_length(float x, float y) const;
+    float min_v=1;                  //minimum velocity
+    float min_f=1;                  //minimum force
+    float max_v=0;                  //maximum velocity
+    float max_f=0;                  //maximum force
+
 
 private:
     int n;
 
     double dt = 0.4;				//simulation time step
     float visc = 0.001;				//fluid viscosity
+
+
 
     fftw_real *vx, *vy;             //(vx,vy)   = velocity field at the current moment
     fftw_real *vx0, *vy0;           //(vx0,vy0) = velocity field at the previous moment

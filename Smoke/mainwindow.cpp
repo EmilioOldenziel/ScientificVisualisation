@@ -64,7 +64,7 @@ void MainWindow::on_bandsSlider_sliderMoved(int position)
 void MainWindow::on_vecScaleSlider_sliderMoved(int position)
 {
     ui->openGLWidget->setVecScale(position);
-    ui->vecScaleLabel->setText(QStringLiteral("Vector scaling: %1").arg(position));
+    ui->vecScaleLabel->setText(QStringLiteral("Vector Scaling: %1").arg(position));
 }
 
 // slider for gliph coloring
@@ -132,3 +132,39 @@ void MainWindow::on_colorClampingMaxSlider_sliderMoved(int position)
     ui->openGLWidget->setColorClampMax(position);
 
 }
+
+void MainWindow::on_dataSetBox_activated(const QString &arg1)
+{
+    if(arg1 == "density"){
+        ui->openGLWidget->setScalarDataSet(0);
+    }
+    if(arg1 == "fluid velocity magnitude"){
+        ui->openGLWidget->setScalarDataSet(1);
+    }
+    if(arg1 == "force field magnitude"){
+        ui->openGLWidget->setScalarDataSet(2);
+    }
+}
+
+void MainWindow::on_vectorDataSetBox_activated(const QString &arg1)
+{
+    if(arg1 == "velocity"){
+        ui->openGLWidget->setVectorDataSet(0);
+    }
+    if(arg1 == "force"){
+        ui->openGLWidget->setVectorDataSet(1);
+    }
+}
+
+void MainWindow::on_glyphSliderX_sliderMoved(int position)
+{
+    ui->openGLWidget->setGlyphsSampleAmountX(position);
+    ui->glyphLabelX->setText(QStringLiteral("Glyphs sampling X: %1").arg(position));
+}
+
+void MainWindow::on_glyphSliderY_sliderMoved(int position)
+{
+    ui->openGLWidget->setGlyphsSampleAmountY(position);
+    ui->glyphLabelY->setText(QStringLiteral("Glyphs sampling Y: %1").arg(position));
+}
+

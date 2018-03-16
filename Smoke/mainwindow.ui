@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>826</width>
-    <height>555</height>
+    <width>1120</width>
+    <height>581</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -489,13 +489,148 @@
      <enum>QSlider::NoTicks</enum>
     </property>
    </widget>
+   <widget class="QComboBox" name="dataSetBox">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>50</y>
+      <width>161</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>density</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>fluid velocity magnitude</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>force field magnitude</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="vectorDataSetBox">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>110</y>
+      <width>161</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>velocity</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>force</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QSlider" name="glyphSliderX">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>170</y>
+      <width>160</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="value">
+     <number>50</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="glyphLabelX">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>150</y>
+      <width>131</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Glyphs sampling X: 50</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vectorFieldLabel">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>90</y>
+      <width>71</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Vector field:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="scalarFieldLabel">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>30</y>
+      <width>71</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Scalar field:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="glyphLabelY">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>200</y>
+      <width>131</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Glyphs sampling Y: 50</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="glyphSliderY">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>230</y>
+      <width>160</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="value">
+     <number>50</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>826</width>
+     <width>1120</width>
      <height>27</height>
     </rect>
    </property>

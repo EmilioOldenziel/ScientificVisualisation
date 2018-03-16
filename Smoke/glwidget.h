@@ -32,6 +32,11 @@ public slots:
      void setColorScaleMin(int min);
      void setColorClampMax(int max);
      void setColorClampMin(int min);
+     void setScalarDataSet(int value);
+     void setVectorDataSet(int value);
+     void setGlyphsSampleAmountX(int value);
+     void setGlyphsSampleAmountY(int value);
+
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
@@ -53,6 +58,9 @@ protected:
 
     void rgb2hsv(float r, float g, float b, float* H, float* S, float* V);
     void hsv2rgb(float* R, float* G, float* B, float H, float S, float V);
+
+    float get_scalar(int i);
+
 
 private:
     int   windowWidth, windowHeight;      //size of the graphics window, in pixels
@@ -80,6 +88,11 @@ private:
 
     int   scalar_col = 0;           //method for scalar coloring
     int   frozen = 0;               //toggles on/off the animation
+
+    int scalar_data_set = 0;        //setting of scalar data set: 0 == rho, 1 == velocity magnitude, 2 == force magnitude
+    int vector_data_set = 0;        //setting of vector data set: 0 == velocity, 1 == force
+    int glyph_sample_amt_x = 50;      //amount of samples of glyphs in x direction
+    int glyph_sample_amt_y = 50;      //amount of samples of glyphs in y direction
 
     Simulation simulation;
 
