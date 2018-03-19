@@ -5,7 +5,7 @@
 #include <QOpenGLWidget>
 #include <rfftw.h>
 #include "simulation.h"
-
+#include <QVector3D>
 
 class GLWidget : public QOpenGLWidget
 {
@@ -60,6 +60,8 @@ protected:
     void hsv2rgb(float* R, float* G, float* B, float H, float S, float V);
 
     float get_scalar(int i);
+
+    QVector3D interpolation(QVector3D pos_to_visualise, QVector3D p1, QVector3D p2, QVector3D p3, QVector3D p4);
 
 
 private:

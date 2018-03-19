@@ -3,6 +3,7 @@
 #include <math.h>
 #include <QTimer>
 #include <QColor>
+#include <QVector3D>
 
 GLWidget::GLWidget(QWidget *parent)
     : QOpenGLWidget(parent)
@@ -37,6 +38,29 @@ float GLWidget::clamp(float value, float min, float max)
         value = max;
     return value;
 }
+
+QVector3D GLWidget::interpolation(QVector3D pos_to_visualise, QVector3D p1, QVector3D p2, QVector3D p3, QVector3D p4){
+
+    QVector3D interpolated = QVector3D(1,1,0);
+
+    float dist1 = pos_to_visualise.distanceToPoint(QVector3D(0.0,0.0,0.0));
+    float dist2 = pos_to_visualise.distanceToPoint(QVector3D(1.0,0.0,0.0));
+    float dist3 = pos_to_visualise.distanceToPoint(QVector3D(1.0,1.0,0.0));
+    float dist4 = pos_to_visualise.distanceToPoint(QVector3D(0.0,1.0,0.0));
+
+    float weight_1 = 1/dist1;
+    float weight_2 = 1/dist2;
+    float weight_3 = 1/dist3;
+    float weight_4 = 1/dist4;
+
+    interpolated = interpolated + (weight_1*p1);
+    interpolated = interpolated + (weight_2*p2);
+    interpolated = interpolated + (weight_3*p3);
+    interpolated = interpolated + (weight_4*p4);
+
+   return interpolated/4;
+}
+
 
 //draw colorbar besides the simulation
 void GLWidget::drawColorBar()
@@ -231,9 +255,9 @@ float GLWidget:: get_scalar(int i){
 //visualize: This is the main visualization function
 void GLWidget::visualize(void)
 {
-    int        i, j, idx;
-    fftw_real  wn = (fftw_real)2 / (fftw_real)(DIM + 1);   // Grid cell width
-    fftw_real  hn = (fftw_real)2 / (fftw_real)(DIM + 1);  // Grid cell heigh
+    int i, j, i_sim, j_sim, idx;
+    fftw_real  wn = (fftw_real)2.0 / (fftw_real)(glyph_sample_amt_x + 1);   // Grid cell width
+    fftw_real  hn = (fftw_real)2.0 / (fftw_real)(glyph_sample_amt_y + 1);  // Grid cell heigh
     if (draw_smoke)
     {
         int idx0, idx1, idx2, idx3;
@@ -244,24 +268,26 @@ void GLWidget::visualize(void)
         {
             for (i = 0; i < DIM - 1; i++)
             {
+                i_sim = floor((i/(float)glyph_sample_amt_x) * DIM);
+                j_sim = floor((j/(float)glyph_sample_amt_y) * DIM);
+
                 px0 = wn + (fftw_real)i * wn;
                 py0 = hn + (fftw_real)j * hn;
-                idx0 = (j * DIM) + i;
-
+                idx0 = (j_sim * DIM) + i_sim;
 
                 px1 = wn + (fftw_real)i * wn;
                 py1 = hn + (fftw_real)(j + 1) * hn;
-                idx1 = ((j + 1) * DIM) + i;
+                idx1 = ((j_sim + 1) * DIM) + i_sim;
 
 
                 px2 = wn + (fftw_real)(i + 1) * wn;
                 py2 = hn + (fftw_real)(j + 1) * hn;
-                idx2 = ((j + 1) * DIM) + (i + 1);
+                idx2 = ((j_sim + 1) * DIM) + (i_sim + 1);
 
 
                 px3 = wn + (fftw_real)(i + 1) * wn;
                 py3 = hn + (fftw_real)j * hn;
-                idx3 = (j * DIM) + (i + 1);
+                idx3 = (j_sim * DIM) + (i_sim + 1);
 
 
                 set_colormap(get_scalar(idx0));    glVertex2f(px0-1, py0-1);
@@ -281,24 +307,29 @@ void GLWidget::visualize(void)
     {
         float vector_x, vector_y, length;
         glBegin(GL_LINES);
-        for (i = 0; i < DIM; i++)
-            for (j = 0; j < DIM; j++)
+        for (i = 0; i < glyph_sample_amt_x; i++)
+            for (j = 0; j < glyph_sample_amt_y; j++)
             {
-                idx = (j * DIM) + i;
+                i_sim = floor((i/(float)glyph_sample_amt_x) * DIM);
+                j_sim = floor((j/(float)glyph_sample_amt_y) * DIM);
+                QVector3D p1, p2, p3, p4, vector;
                 if(vector_data_set){
-                    length = simulation.get_length(simulation.get_fx()[idx], simulation.get_fy()[idx]);
-                    vector_x = (simulation.get_fx()[idx]/length - simulation.min_f)/(simulation.max_f - simulation.min_f);
-                    vector_y = (simulation.get_fy()[idx]/length - simulation.min_f)/(simulation.max_f - simulation.min_f);
-
+                    p1 = QVector3D(simulation.get_fx()[j_sim*DIM + i_sim], simulation.get_fy()[j_sim*DIM + i_sim], 0.0);
+                    p2 = QVector3D(simulation.get_fx()[j_sim*DIM + i_sim+1], simulation.get_fy()[j_sim*DIM + i_sim+1], 0.0);
+                    p3 = QVector3D(simulation.get_fx()[(j_sim+1)*DIM + i_sim+1], simulation.get_fy()[(j_sim+1)*DIM + i_sim+1], 0.0);
+                    p4 = QVector3D(simulation.get_fx()[(j_sim+1)*DIM + i_sim], simulation.get_fy()[(j_sim+1)*DIM + i_sim], 0.0);
+                    vector = interpolation(QVector3D(i * wn, j * hn, 0), p1, p2, p3, p4);
                 }
                 else{
-                    length = simulation.get_length(simulation.get_vx()[idx], simulation.get_vy()[idx]);
-                    vector_x = (simulation.get_vx()[idx]/length - simulation.min_v)/(simulation.max_v - simulation.min_v);
-                    vector_y = (simulation.get_vy()[idx]/length - simulation.min_v)/(simulation.max_v - simulation.min_v);
+                    p1 = QVector3D(simulation.get_vx()[j_sim*DIM + i_sim], simulation.get_vy()[j_sim*DIM + i_sim], 0.0);
+                    p2 = QVector3D(simulation.get_vx()[j_sim*DIM + i_sim+1], simulation.get_vy()[j_sim*DIM + i_sim+1], 0.0);
+                    p3 = QVector3D(simulation.get_vx()[(j_sim+1)*DIM + i_sim+1], simulation.get_vy()[(j_sim+1)*DIM + i_sim+1], 0.0);
+                    p4 = QVector3D(simulation.get_vx()[(j_sim+1)*DIM + i_sim], simulation.get_vy()[(j_sim+1)*DIM + i_sim], 0.0);
+                    vector = interpolation(QVector3D(i * wn, j * hn, 0), p1, p2, p3, p4);
                 }
                 direction_to_color(vector_x,vector_y,color_dir);
                 glVertex2f((wn + (fftw_real)i * wn) - 1, (hn + (fftw_real)j * hn) - 1);
-                glVertex2f(((wn + (fftw_real)i * wn) + vec_scale * vector_x) - 1, ((hn + (fftw_real)j * hn) + vec_scale * vector_y) -1);
+                glVertex2f(((wn + (fftw_real)i * wn) + vec_scale * vector.x()) - 1, ((hn + (fftw_real)j * hn) + vec_scale * vector.y()) -1);
             }
         glEnd();
     }

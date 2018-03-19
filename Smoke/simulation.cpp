@@ -16,7 +16,7 @@ fftw_real* Simulation::get_rho() const{return rho;}
 fftw_real* Simulation::get_rho0() const {return rho0;}
 fftw_real* Simulation::get_vx() const {return vx;}
 fftw_real* Simulation::get_vy() const {return vy;}
-float Simulation::get_length(float x, float y) const{return sqrt(x+x + y*y);}
+float Simulation::get_length(float x, float y) const{return sqrt(x*x + y*y);}
 fftw_real* Simulation::get_vx0() const {return vx0;}
 fftw_real* Simulation::get_vy0() const {return vy0;}
 
