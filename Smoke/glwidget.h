@@ -25,7 +25,7 @@ public slots:
 
      void setColor(int c);
      void setColorBands(int b);
-     void setVecScale(int vs);
+     void setVecScale(float vs);
      void setSaturation(float sat);
      void setHue(float h);
      void setColorScaleMax(int max);
@@ -68,7 +68,7 @@ private:
     int   windowWidth, windowHeight;      //size of the graphics window, in pixels
     int   DIM;
     int   color_dir = 0;            //use direction color-coding or not
-    float vec_scale = 1;			//scaling of hedgehogs
+    float vec_scale = 0.5;			//scaling of hedgehogs
     int   draw_smoke = 1;           //draw the smoke or not
     int   draw_vecs = 1;            //draw the vector field or not
 

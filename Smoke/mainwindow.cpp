@@ -63,8 +63,9 @@ void MainWindow::on_bandsSlider_sliderMoved(int position)
 // slider for vector scale
 void MainWindow::on_vecScaleSlider_sliderMoved(int position)
 {
-    ui->openGLWidget->setVecScale(position);
-    ui->vecScaleLabel->setText(QStringLiteral("Vector Scaling: %1").arg(position));
+    float pos = position/100.0;
+    ui->openGLWidget->setVecScale(pos);
+    ui->vecScaleLabel->setText(QStringLiteral("Vector Scaling: %1").arg(pos));
 }
 
 // slider for gliph coloring

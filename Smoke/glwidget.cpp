@@ -41,7 +41,7 @@ float GLWidget::clamp(float value, float min, float max)
 
 QVector3D GLWidget::interpolation(QVector3D pos_to_visualise, QVector3D p1, QVector3D p2, QVector3D p3, QVector3D p4){
 
-    QVector3D interpolated = QVector3D(1,1,0);
+    QVector3D interpolated = QVector3D(0,0,0);
 
     float dist1 = pos_to_visualise.distanceToPoint(QVector3D(0.0,0.0,0.0));
     float dist2 = pos_to_visualise.distanceToPoint(QVector3D(1.0,0.0,0.0));
@@ -58,7 +58,7 @@ QVector3D GLWidget::interpolation(QVector3D pos_to_visualise, QVector3D p1, QVec
     interpolated = interpolated + (weight_3*p3);
     interpolated = interpolated + (weight_4*p4);
 
-   return interpolated/4;
+   return interpolated.normalized()*vec_scale;
 }
 
 
@@ -264,9 +264,9 @@ void GLWidget::visualize(void)
         double px0, py0, px1, py1, px2, py2, px3, py3;
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         glBegin(GL_TRIANGLES);
-        for (j = 0; j < DIM - 1; j++)            //draw smoke
+        for (j = 0; j < glyph_sample_amt_y - 1; j++)            //draw smoke
         {
-            for (i = 0; i < DIM - 1; i++)
+            for (i = 0; i < glyph_sample_amt_x - 1; i++)
             {
                 i_sim = floor((i/(float)glyph_sample_amt_x) * DIM);
                 j_sim = floor((j/(float)glyph_sample_amt_y) * DIM);
@@ -314,20 +314,20 @@ void GLWidget::visualize(void)
                 j_sim = floor((j/(float)glyph_sample_amt_y) * DIM);
                 QVector3D p1, p2, p3, p4, vector;
                 if(vector_data_set){
-                    p1 = QVector3D(simulation.get_fx()[j_sim*DIM + i_sim], simulation.get_fy()[j_sim*DIM + i_sim], 0.0);
-                    p2 = QVector3D(simulation.get_fx()[j_sim*DIM + i_sim+1], simulation.get_fy()[j_sim*DIM + i_sim+1], 0.0);
+                    p1 = QVector3D(simulation.get_fx()[j_sim*DIM + i_sim],       simulation.get_fy()[j_sim*DIM + i_sim], 0.0);
+                    p2 = QVector3D(simulation.get_fx()[j_sim*DIM + i_sim+1],     simulation.get_fy()[j_sim*DIM + i_sim+1], 0.0);
                     p3 = QVector3D(simulation.get_fx()[(j_sim+1)*DIM + i_sim+1], simulation.get_fy()[(j_sim+1)*DIM + i_sim+1], 0.0);
-                    p4 = QVector3D(simulation.get_fx()[(j_sim+1)*DIM + i_sim], simulation.get_fy()[(j_sim+1)*DIM + i_sim], 0.0);
+                    p4 = QVector3D(simulation.get_fx()[(j_sim+1)*DIM + i_sim],   simulation.get_fy()[(j_sim+1)*DIM + i_sim], 0.0);
                     vector = interpolation(QVector3D(i * wn, j * hn, 0), p1, p2, p3, p4);
                 }
                 else{
-                    p1 = QVector3D(simulation.get_vx()[j_sim*DIM + i_sim], simulation.get_vy()[j_sim*DIM + i_sim], 0.0);
-                    p2 = QVector3D(simulation.get_vx()[j_sim*DIM + i_sim+1], simulation.get_vy()[j_sim*DIM + i_sim+1], 0.0);
+                    p1 = QVector3D(simulation.get_vx()[j_sim*DIM + i_sim],       simulation.get_vy()[j_sim*DIM + i_sim], 0.0);
+                    p2 = QVector3D(simulation.get_vx()[j_sim*DIM + i_sim+1],     simulation.get_vy()[j_sim*DIM + i_sim+1], 0.0);
                     p3 = QVector3D(simulation.get_vx()[(j_sim+1)*DIM + i_sim+1], simulation.get_vy()[(j_sim+1)*DIM + i_sim+1], 0.0);
-                    p4 = QVector3D(simulation.get_vx()[(j_sim+1)*DIM + i_sim], simulation.get_vy()[(j_sim+1)*DIM + i_sim], 0.0);
+                    p4 = QVector3D(simulation.get_vx()[(j_sim+1)*DIM + i_sim],   simulation.get_vy()[(j_sim+1)*DIM + i_sim], 0.0);
                     vector = interpolation(QVector3D(i * wn, j * hn, 0), p1, p2, p3, p4);
                 }
-                direction_to_color(vector_x,vector_y,color_dir);
+                direction_to_color(vector.x(),vector.y(),color_dir);
                 glVertex2f((wn + (fftw_real)i * wn) - 1, (hn + (fftw_real)j * hn) - 1);
                 glVertex2f(((wn + (fftw_real)i * wn) + vec_scale * vector.x()) - 1, ((hn + (fftw_real)j * hn) + vec_scale * vector.y()) -1);
             }
@@ -395,7 +395,7 @@ void GLWidget::setColorBands(int b){
     bands = b;
 }
 
-void GLWidget::setVecScale(int vs){
+void GLWidget::setVecScale(float vs){
     vec_scale = vs;
 }
 
