@@ -36,6 +36,12 @@ void MainWindow::on_vecs_checkbox_toggled(bool checked)
 
 }
 
+
+void MainWindow::on_divergence_toggled(bool checked)
+{
+    ui->openGLWidget->toggleDivergence(checked);
+}
+
 // dropdown for colormap selection
 void MainWindow::on_colorBox_activated(const QString &arg1)
 {
@@ -169,3 +175,16 @@ void MainWindow::on_glyphSliderY_sliderMoved(int position)
     ui->glyphLabelY->setText(QStringLiteral("Glyphs sampling Y: %1").arg(position));
 }
 
+
+
+void MainWindow::on_glyphBox_activated(const QString &arg1)
+{
+    if(arg1 == "hedgehogs"){
+        ui->openGLWidget->setGlyphShape(0);
+    }
+    if(arg1 == "arrows"){
+        ui->openGLWidget->setGlyphShape(1);
+    }    if(arg1 == "cones"){
+        ui->openGLWidget->setGlyphShape(2);
+    }
+}

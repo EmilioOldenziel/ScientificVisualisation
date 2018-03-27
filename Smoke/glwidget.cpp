@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QColor>
 #include <QVector3D>
+#include <QGenericMatrix>
 
 GLWidget::GLWidget(QWidget *parent)
     : QOpenGLWidget(parent)
@@ -39,6 +40,72 @@ float GLWidget::clamp(float value, float min, float max)
     return value;
 }
 
+void GLWidget::draw_hedgehog(QVector3D vector, fftw_real wn, fftw_real hn, int i, int j)
+{
+    glBegin(GL_LINES);
+    glVertex2f((wn + (fftw_real)i * wn) - 1, (hn + (fftw_real)j * hn) - 1);
+    glVertex2f(((wn + (fftw_real)i * wn) + vec_scale * vector.x()) - 1, ((hn + (fftw_real)j * hn) + vec_scale * vector.y()) -1);
+    glEnd();
+}
+
+void GLWidget::draw_arrow(QVector3D vector, fftw_real wn, fftw_real hn, int i, int j)
+{
+    float x1 = (wn + (fftw_real)i * wn) - 1;
+    float y1 = (hn + (fftw_real)j * hn) - 1;
+    float x2 = ((wn + (fftw_real)i * wn) + vec_scale * vector.x()) - 1.0;
+    float y2 = ((hn + (fftw_real)j * hn) + vec_scale * vector.y()) - 1.0;
+
+    glBegin(GL_LINES);
+    glVertex2f(x1, y1);
+    glVertex2f(x2, y2);
+    glEnd();
+
+    glBegin(GL_TRIANGLES);
+    QVector3D perp_left =  QVector3D(-vector.y(), vector.x(), 0);
+    QVector3D perp_right = QVector3D(-perp_left.x(), -perp_left.y(), 0);
+
+    perp_left  *= vec_scale* 0.2;
+    perp_right *= vec_scale *0.2;
+
+    perp_left +=  QVector3D(((wn + (fftw_real)i * wn)) + vec_scale *0.6 * vector.x() - 1, ((hn + (fftw_real)j * hn))+ vec_scale* 0.6 * vector.y() -1, 0);
+    perp_right += QVector3D(((wn + (fftw_real)i * wn)) + vec_scale *0.6 * vector.x() - 1, ((hn + (fftw_real)j * hn))+ vec_scale* 0.6 * vector.y() -1, 0);
+
+    glVertex2f(x2, y2);
+    glVertex2f(perp_left.x(),perp_left.y());
+    glVertex2f(perp_right.x(),perp_right.y());
+
+    glEnd();
+}
+
+void GLWidget::draw_cone(QVector3D vector, fftw_real wn, fftw_real hn, int i, int j)
+{
+    float x1 = (wn + (fftw_real)i * wn) - 1;
+    float y1 = (hn + (fftw_real)j * hn) - 1;
+    float x2 = ((wn + (fftw_real)i * wn) + vec_scale * vector.x()) - 1.0;
+    float y2 = ((hn + (fftw_real)j * hn) + vec_scale * vector.y()) - 1.0;
+
+    glBegin(GL_LINES);
+    glVertex2f(x1, y1);
+    glVertex2f(x2, y2);
+    glEnd();
+
+    glBegin(GL_TRIANGLES);
+    QVector3D perp_left =  QVector3D(-vector.y(), vector.x(), 0);
+    QVector3D perp_right = QVector3D(-perp_left.x(), -perp_left.y(), 0);
+
+    perp_left  *= vec_scale * 0.2;
+    perp_right *= vec_scale * 0.2;
+
+    perp_left +=  QVector3D(((wn + (fftw_real)i * wn)) + - 1, ((hn + (fftw_real)j * hn))+  -1, 0);
+    perp_right += QVector3D(((wn + (fftw_real)i * wn)) + - 1, ((hn + (fftw_real)j * hn))+  -1, 0);
+
+    glVertex2f(x2, y2);
+    glVertex2f(perp_left.x(),perp_left.y());
+    glVertex2f(perp_right.x(),perp_right.y());
+
+    glEnd();
+}
+
 QVector3D GLWidget::interpolation(QVector3D pos_to_visualise, QVector3D p1, QVector3D p2, QVector3D p3, QVector3D p4){
 
     QVector3D interpolated = QVector3D(0,0,0);
@@ -61,6 +128,26 @@ QVector3D GLWidget::interpolation(QVector3D pos_to_visualise, QVector3D p1, QVec
    return interpolated.normalized()*vec_scale;
 }
 
+float GLWidget::divergence(int i){
+
+    fftw_real* vx = simulation.get_vx();
+    fftw_real* vy = simulation.get_vy();
+
+    float  wn = 2.0 / DIM;   // Grid cell width
+    float  hn = 2.0 / DIM;  // Grid cell height
+
+    float upper = simulation.get_length(vx[i-DIM], vy[i-DIM]);
+    float below = simulation.get_length(vx[i+DIM], vy[i+DIM]);
+    float left =  simulation.get_length(vx[i-1], vy[i-1]);
+    float right = simulation.get_length(vx[i+1], vy[i+1]);
+
+    float diff_x = (left-right)/wn;
+    float diff_y = (upper-below)/hn;
+
+
+
+    return (diff_x + diff_y + 1.0)/2.0;
+}
 
 //draw colorbar besides the simulation
 void GLWidget::drawColorBar()
@@ -114,12 +201,12 @@ void GLWidget::zebra(float value,float* R,float* G,float* B)
     if (value<0) value=0; if (value>1) value=1;
     if (int ((value*100)) % 25){
         *R = *G = *B = 1;
-
     }else{
         *R = *G = *B = 0;
 
     }
 }
+
 
 float GLWidget::colorBands(float vy, int bands){
     int NLEVELS = bands;
@@ -158,7 +245,6 @@ void GLWidget::hsv2rgb(float* R, float* G, float* B, float H, float S, float V){
     float lx = V*(1-S);
     float ly = V*(1-S*frac);
     float lz = V*(1-S*(1-frac));
-
     switch(hueCase){
         case 0:
         case 6: *R=V;  *G=lz; *B=lx; break;
@@ -174,7 +260,8 @@ void GLWidget::hsv2rgb(float* R, float* G, float* B, float H, float S, float V){
 
 //set_colormap: Sets three different types of colormaps
 void GLWidget::set_colormap(float vy)
-{
+{    fftw_real* vx = simulation.get_vx();
+
     //Color scaling
     if(color_scaling && color_scale_max > color_scale_min)
         vy = color_scale_min + vy*(color_scale_max - color_scale_min);
@@ -194,7 +281,6 @@ void GLWidget::set_colormap(float vy)
         heatMap(vy,&R,&G,&B);
     else if (scalar_col==COLOR_ZEBRA)
         zebra(vy,&R,&G,&B);
-
     float H,S,V;
     rgb2hsv(R, G, B, &H, &S, &V);
     H = (hue/3.14)+H;
@@ -237,19 +323,21 @@ void GLWidget::direction_to_color(float x, float y, int method)
 
 float GLWidget:: get_scalar(int i){
     switch(scalar_data_set){
+        //rho
         case 0: return simulation.get_rho()[i];
+        //velocity
         case 1: {
             fftw_real* vx = simulation.get_vx();
             fftw_real* vy = simulation.get_vy();
             return simulation.get_length(vx[i], vy[i]);
         };
+        //force
         case 2: {
             fftw_real* fx = simulation.get_fx();
             fftw_real* fy = simulation.get_fy();
             return simulation.get_length(fx[i], fy[i]);
         };
     }
-
 }
 
 //visualize: This is the main visualization function
@@ -289,7 +377,6 @@ void GLWidget::visualize(void)
                 py3 = hn + (fftw_real)j * hn;
                 idx3 = (j_sim * DIM) + (i_sim + 1);
 
-
                 set_colormap(get_scalar(idx0));    glVertex2f(px0-1, py0-1);
                 set_colormap(get_scalar(idx1));    glVertex2f(px1-1, py1-1);
                 set_colormap(get_scalar(idx2));    glVertex2f(px2-1, py2-1);
@@ -305,14 +392,13 @@ void GLWidget::visualize(void)
 
     if (draw_vecs)
     {
-        float vector_x, vector_y, length;
-        glBegin(GL_LINES);
         for (i = 0; i < glyph_sample_amt_x; i++)
             for (j = 0; j < glyph_sample_amt_y; j++)
             {
                 i_sim = floor((i/(float)glyph_sample_amt_x) * DIM);
                 j_sim = floor((j/(float)glyph_sample_amt_y) * DIM);
                 QVector3D p1, p2, p3, p4, vector;
+
                 if(vector_data_set){
                     p1 = QVector3D(simulation.get_fx()[j_sim*DIM + i_sim],       simulation.get_fy()[j_sim*DIM + i_sim], 0.0);
                     p2 = QVector3D(simulation.get_fx()[j_sim*DIM + i_sim+1],     simulation.get_fy()[j_sim*DIM + i_sim+1], 0.0);
@@ -328,10 +414,14 @@ void GLWidget::visualize(void)
                     vector = interpolation(QVector3D(i * wn, j * hn, 0), p1, p2, p3, p4);
                 }
                 direction_to_color(vector.x(),vector.y(),color_dir);
-                glVertex2f((wn + (fftw_real)i * wn) - 1, (hn + (fftw_real)j * hn) - 1);
-                glVertex2f(((wn + (fftw_real)i * wn) + vec_scale * vector.x()) - 1, ((hn + (fftw_real)j * hn) + vec_scale * vector.y()) -1);
+
+                switch(glyph_shape){
+                    case 0: draw_hedgehog(vector, wn, hn, i, j); break;
+                    case 1: draw_arrow(vector, wn, hn, i, j); break;
+                    case 2: draw_cone(vector, wn, hn, i, j); break;
+                }
+
             }
-        glEnd();
     }
     drawColorBar();
 }
@@ -447,4 +537,12 @@ void GLWidget:: setGlyphsSampleAmountX(int value){
 
 void GLWidget:: setGlyphsSampleAmountY(int value){
     glyph_sample_amt_y = value;
+}
+
+void GLWidget::toggleDivergence(bool checked){
+    diver = checked;
+}
+
+void GLWidget::setGlyphShape(int value){
+    glyph_shape = value;
 }

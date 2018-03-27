@@ -52,6 +52,10 @@ private slots:
 
     void on_glyphSliderX_sliderMoved(int position);
 
+    void on_divergence_toggled(bool checked);
+
+    void on_glyphBox_activated(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
 };
