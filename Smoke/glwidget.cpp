@@ -420,9 +420,74 @@ void GLWidget::visualize(void)
                     case 1: draw_arrow(vector, wn, hn, i, j); break;
                     case 2: draw_cone(vector, wn, hn, i, j); break;
                 }
-
             }
     }
+    if (isolines){
+        glColor3f(1, 1, 1);
+        glBegin(GL_LINES);
+
+        float p1, p2, p3, p4;
+        float x1, y1, x2, y2;
+        std::bitset<4> marching;
+        long marching_case;
+        for (i = 0; i < glyph_sample_amt_x; i++)
+            for (j = 0; j < glyph_sample_amt_y; j++)
+            {
+                marching.reset();
+                i_sim = floor((i/(float)glyph_sample_amt_x) * DIM);
+                j_sim = floor((j/(float)glyph_sample_amt_y) * DIM);
+                p1 = simulation.get_rho()[j_sim*DIM + i_sim];
+                p2 = simulation.get_rho()[j_sim*DIM + i_sim+1];
+                p3 = simulation.get_rho()[(j_sim+1)*DIM + i_sim+1];
+                p4 = simulation.get_rho()[(j_sim+1)*DIM + i_sim];
+
+                if(p1>iso_threshold) marching.flip(3);
+                if(p2>iso_threshold) marching.flip(2);
+                if(p3>iso_threshold) marching.flip(1);
+                if(p4>iso_threshold) marching.flip(0);
+
+                marching_case = marching.to_ulong();
+                switch (marching_case){
+                    case 0: break;
+                    case 1:  x1 =  i*wn;         y1 = (j+0.5)*hn;    x2 = (i+0.5)*wn;    y2 = (j+1)*hn;  break;
+                    case 2:  x1 = (i+1)*wn;      y1 = (j+0.5)*hn;    x2 = (i+0.5)*wn;    y2 = (j+1)*hn; break;
+                    case 3:  x1 =  i*wn;         y1 = (j+0.5)*hn;    x2 = (i+1)*wn;      y2 = (j+0.5)*hn;break;
+                    case 4:  x1 = (i+1)*wn;      y1 = (j+0.5)*hn;    x2 = (i+0.5)*wn;    y2 = j*hn; break;
+                    case 5:  x1 = i*wn;          y1 = (j+0.5)*hn;    x2 = (i+0.5)*wn;    y2 = j*hn; break;
+                    case 6:  x1 = (i+0.5)*wn;    y1 = j*hn;          x2 = (i+0.5)*wn;    y2 = (j+1)*hn; break;
+                    case 7:  x1 = i*wn;          y1 = (j+0.5)*hn;    x2 = (i+0.5)*wn;    y2 = j*hn; break;
+                    case 8:  x1 = i*wn;          y1 = (j+0.5)*hn;    x2 = (i+0.5)*wn;    y2 = j*hn; break;
+                    case 9:  x1 = (i+0.5)*wn;    y1 = j*hn;          x2 = (i+0.5)*wn;    y2 = (j+1)*hn; break;
+                    case 10: x1 = i*wn;          y1 = (j+0.5)*hn;    x2 = (i+0.5)*wn;    y2 = (j+1)*hn;  break;
+                    case 11: x1 = (i+1)*wn;      y1 = (j+0.5)*hn;    x2 = (i+0.5)*wn;    y2 = j*hn; break;
+                    case 12: x1 = i*wn;          y1 = (j+0.5)*hn;    x2 = (i+1)*wn;      y2 = (j+0.5)*hn; break;
+                    case 13: x1 = (i+1)*wn;      y1 = (j+0.5)*hn;    x2 = (i+0.5)*wn;    y2 = (j+1)*hn; break;
+                    case 14: x1 = i*wn;          y1 = (j+0.5)*hn;    x2 = (i+0.5)*wn;    y2 = (j+1)*hn;  break;
+                    case 15: break;
+                }
+
+                glVertex2f(x1-1, y1-1);
+                glVertex2f(x2-1, y2-1);
+
+                if(marching_case == 5){
+                    x1 = (i+1)*wn;      y1 = (j+0.5)*hn;
+                    x2 = (i+0.5)*wn;    y2 = (j+1)*hn;
+                    glVertex2f(x1-1, y1-1);
+                    glVertex2f(x2-1, y2-1);
+                }
+                if(marching_case == 10){
+                    x1 = (i+1)*wn;      y1 = (j+0.5)*hn;
+                    x2 = (i+0.5)*wn;    y2 = j*hn;
+                    glVertex2f(x1-1, y1-1);
+                    glVertex2f(x2-1, y2-1);
+                }
+
+
+
+            }
+        glEnd();
+    }
+
     drawColorBar();
 }
 
@@ -545,4 +610,12 @@ void GLWidget::toggleDivergence(bool checked){
 
 void GLWidget::setGlyphShape(int value){
     glyph_shape = value;
+}
+
+void GLWidget::setIsolines(int value){
+    isolines = value;
+}
+
+void GLWidget::setIsolineThreshold(float pos){
+    iso_threshold = pos;
 }

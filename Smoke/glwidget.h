@@ -6,6 +6,7 @@
 #include <rfftw.h>
 #include "simulation.h"
 #include <QVector3D>
+#include <bitset>
 
 class GLWidget : public QOpenGLWidget
 {
@@ -39,6 +40,8 @@ public slots:
      void setGlyphsSampleAmountX(int value);
      void setGlyphsSampleAmountY(int value);
      void setGlyphShape(int value);
+     void setIsolines(int value);
+     void setIsolineThreshold(float pos);
 
 protected:
     void initializeGL();
@@ -78,6 +81,7 @@ private:
     float vec_scale = 0.2;			//scaling of hedgehogs
     int   draw_smoke = 1;           //draw the smoke or not
     int   draw_vecs = 1;            //draw the vector field or not
+    int   isolines = 0;
 
     const int COLOR_BLACKWHITE=0;   //different types of color mapping: black-and-white, rainbow, banded
     const int COLOR_RAINBOW=1;
@@ -106,6 +110,9 @@ private:
     int diver = 0;
 
     int glyph_shape = 0;
+
+
+    float iso_threshold = 0.20;         //isoline threshold
 
     Simulation simulation;
 

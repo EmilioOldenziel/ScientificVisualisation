@@ -56,6 +56,10 @@ private slots:
 
     void on_glyphBox_activated(const QString &arg1);
 
+    void on_iso_checkbox_toggled(bool checked);
+
+    void on_isolineSlider_sliderMoved(int position);
+
 private:
     Ui::MainWindow *ui;
 };

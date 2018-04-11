@@ -188,3 +188,15 @@ void MainWindow::on_glyphBox_activated(const QString &arg1)
         ui->openGLWidget->setGlyphShape(2);
     }
 }
+
+void MainWindow::on_iso_checkbox_toggled(bool checked)
+{
+    ui->openGLWidget->setIsolines(checked);
+}
+
+void MainWindow::on_isolineSlider_sliderMoved(int position)
+{
+    float pos = position/100.0;
+    ui->openGLWidget->setIsolineThreshold(pos);
+    ui->isolineScaleLabel->setText(QStringLiteral("Isoline threshold: %1").arg(pos));
+}
