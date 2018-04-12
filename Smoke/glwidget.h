@@ -42,6 +42,11 @@ public slots:
      void setGlyphShape(int value);
      void setIsolines(int value);
      void setIsolineThreshold(float pos);
+     void setIsolineMin(float pos);
+     void setIsolineMax(float pos);
+     void setIsolineN(int pos);
+     void setIsolineOption(int value);
+     void setHeightPlot(bool value);
 
 protected:
     void initializeGL();
@@ -70,9 +75,12 @@ protected:
     QVector3D interpolation(QVector3D pos_to_visualise, QVector3D p1, QVector3D p2, QVector3D p3, QVector3D p4);
     float divergence(int i);
 
+    void draw_isoline(float threshold, fftw_real wn, fftw_real hn);
+
     void draw_hedgehog(QVector3D vector, fftw_real wn, fftw_real hn, int i, int j);
     void draw_arrow(QVector3D vector, fftw_real wn, fftw_real hn, int i, int j);
     void draw_cone(QVector3D vector, fftw_real wn, fftw_real hn, int i, int j);
+
 
 private:
     int   windowWidth, windowHeight;      //size of the graphics window, in pixels
@@ -111,8 +119,13 @@ private:
 
     int glyph_shape = 0;
 
-
+    int isoline_option = 0;             //isoline option 0 == threshold, 1 == range
     float iso_threshold = 0.20;         //isoline threshold
+    float iso_min = 0.0;                // minimum for isoline range
+    float iso_max = 1.0;                // maximum for isoline range
+    int iso_N = 1;                      // amount n isolines in the range
+
+    bool height_plot = false;
 
     Simulation simulation;
 

@@ -191,7 +191,21 @@ void MainWindow::on_glyphBox_activated(const QString &arg1)
 
 void MainWindow::on_iso_checkbox_toggled(bool checked)
 {
-    ui->openGLWidget->setIsolines(checked);
+    if(checked){
+        ui->isolineOptionDropdown->setEnabled(checked);
+        ui->isolineSlider->setEnabled(checked);
+        ui->openGLWidget->setIsolines(checked);
+    }
+    else{
+        ui->isolineOptionDropdown->setEnabled(checked);
+        ui->isolineOptionDropdown->setCurrentIndex(0);
+        ui->openGLWidget->setIsolineOption(0);
+        ui->isolineSlider->setEnabled(checked);
+        ui->openGLWidget->setIsolines(checked);
+        ui->isolineNSlider->setEnabled(false);
+        ui->isolinMinSlider->setEnabled(false);
+        ui->isolineMaxSlider->setEnabled(false);
+    }
 }
 
 void MainWindow::on_isolineSlider_sliderMoved(int position)
@@ -199,4 +213,63 @@ void MainWindow::on_isolineSlider_sliderMoved(int position)
     float pos = position/100.0;
     ui->openGLWidget->setIsolineThreshold(pos);
     ui->isolineScaleLabel->setText(QStringLiteral("Isoline threshold: %1").arg(pos));
+}
+
+void MainWindow::on_isolinMinSlider_sliderMoved(int position)
+{
+    float pos = -1*(position-50)/100.0;
+    ui->isolineMinLabel->setText(QStringLiteral("Min: %1").arg(pos));
+    ui->openGLWidget->setIsolineMin(pos);
+}
+
+void MainWindow::on_isolineMaxSlider_sliderMoved(int position)
+{
+    float pos = position/100.0;
+    ui->isolineMaxLabel->setText(QStringLiteral("Max: %1").arg(pos));
+    ui->openGLWidget->setIsolineMax(pos);
+}
+
+void MainWindow::on_isolineNSlider_sliderMoved(int pos)
+{
+    ui->isolineNLabel->setText(QStringLiteral("Amount of isolines: %1").arg(pos));
+    ui->openGLWidget->setIsolineN(pos);
+}
+
+void MainWindow::on_isolineOptionDropdown_activated(const QString &arg1)
+{
+    if(arg1 == "threshold"){
+        ui->isolineSlider->setEnabled(true);
+        ui->isolineNSlider->setEnabled(false);
+        ui->isolinMinSlider->setEnabled(false);
+        ui->isolineMaxSlider->setEnabled(false);
+        ui->openGLWidget->setIsolineOption(0);
+    }
+    else{
+        ui->isolineSlider->setEnabled(false);
+        ui->isolineNSlider->setEnabled(true);
+        ui->isolinMinSlider->setEnabled(true);
+        ui->isolineMaxSlider->setEnabled(true);
+        ui->openGLWidget->setIsolineOption(1);
+    }
+}
+
+void MainWindow::on_heightplot_checkbox_toggled(bool checked)
+{
+    //put glyphs off
+    ui->openGLWidget->toggle_vecs(!checked);
+    ui->openGLWidget->toggle_vecs(!checked);
+    ui->vecsColor_checkbox->setEnabled(!checked);
+    ui->vecs_checkbox->setEnabled(!checked);
+    ui->vecScaleSlider->setEnabled(!checked);
+    ui->vectorDataSetBox->setEnabled(!checked);
+    ui->glyphBox->setEnabled(!checked);
+    //put isoliness off
+    ui->openGLWidget->setIsolines(0);
+    ui->iso_checkbox->setEnabled(!checked);
+    ui->isolineSlider->setEnabled(!checked);
+    ui->isolineNSlider->setEnabled(!checked);
+    ui->isolinMinSlider->setEnabled(!checked);
+    ui->isolineMaxSlider->setEnabled(!checked);
+
+    ui->openGLWidget->setHeightPlot(checked);
 }

@@ -60,6 +60,16 @@ private slots:
 
     void on_isolineSlider_sliderMoved(int position);
 
+    void on_isolinMinSlider_sliderMoved(int position);
+
+    void on_isolineMaxSlider_sliderMoved(int position);
+
+    void on_isolineNSlider_sliderMoved(int position);
+
+    void on_isolineOptionDropdown_activated(const QString &arg1);
+
+    void on_heightplot_checkbox_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
 };
