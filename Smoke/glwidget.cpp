@@ -409,6 +409,25 @@ float GLWidget:: get_scalar(int i){
     }
 }
 
+float GLWidget:: get_scalar_height(int i){
+    switch(scalar_data_set_height_color){
+        //rho
+        case 0: return simulation.get_rho()[i];
+        //velocity
+        case 1: {
+            fftw_real* vx = simulation.get_vx();
+            fftw_real* vy = simulation.get_vy();
+            return simulation.get_length(vx[i], vy[i]);
+        };
+        //force
+        case 2: {
+            fftw_real* fx = simulation.get_fx();
+            fftw_real* fy = simulation.get_fy();
+            return simulation.get_length(fx[i], fy[i]);
+        };
+    }
+}
+
 //visualize: This is the main visualization function
 void GLWidget::visualize(void)
 {
@@ -453,10 +472,10 @@ void GLWidget::visualize(void)
                 idx3 = (j_sim * DIM) + (i_sim + 1);
 
                 if(height_plot){
-                    set_colormap(get_scalar(idx0));    glVertex3f(px0-1, py0-1,get_scalar(idx0));
-                    set_colormap(get_scalar(idx1));    glVertex3f(px1-1, py1-1,get_scalar(idx1));
-                    set_colormap(get_scalar(idx2));    glVertex3f(px2-1, py2-1, get_scalar(idx2));
-                    set_colormap(get_scalar(idx3));    glVertex3f(px3-1, py3-1, get_scalar(idx3));
+                    set_colormap(get_scalar_height(idx0));    glVertex3f(px0-1, py0-1,get_scalar(idx0));
+                    set_colormap(get_scalar_height(idx1));    glVertex3f(px1-1, py1-1,get_scalar(idx1));
+                    set_colormap(get_scalar_height(idx2));    glVertex3f(px2-1, py2-1, get_scalar(idx2));
+                    set_colormap(get_scalar_height(idx3));    glVertex3f(px3-1, py3-1, get_scalar(idx3));
                 }else{
                     set_colormap(get_scalar(idx0));    glVertex2f(px0-1, py0-1);
                     set_colormap(get_scalar(idx1));    glVertex2f(px1-1, py1-1);
@@ -537,10 +556,10 @@ void GLWidget::paintGL()
     if(height_plot){
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(-1, 1, -1, 2, -1, 2);
-        glRotatef(-40.0, 1.0, 0.0, 0.0);
-        glRotatef(0.0, 0.0, 1.0, 0.0);
-        glRotatef(180.0, 0.0, 0.0, 1.0);
+        glOrtho(-zoom_view, zoom_view, -zoom_view, zoom_view, -zoom_view, zoom_view);
+        glRotatef(340.0, 1.0, 0.0, 0.0);
+        glRotatef(rotate_view, 0.0, 1.0, 0.0);
+        glRotatef(217.0, 0.0, 0.0, 1.0);
     }
     else{
         glMatrixMode(GL_PROJECTION);
@@ -696,6 +715,15 @@ void GLWidget::setHeightPlot(bool checked){
         height_plot = checked;
 }
 
+void GLWidget::setZoomView(int value){
+    zoom_view = value;
+}
 
+void GLWidget::setRotateView(int value){
+    rotate_view = value;
+}
 
+void GLWidget::setHeightColorScalarDataSet(int value){
+    scalar_data_set_height_color = value;
+}
 

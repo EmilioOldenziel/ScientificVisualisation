@@ -36,6 +36,7 @@ public slots:
      void setColorClampMax(int max);
      void setColorClampMin(int min);
      void setScalarDataSet(int value);
+     void setHeightColorScalarDataSet(int value);
      void setVectorDataSet(int value);
      void setGlyphsSampleAmountX(int value);
      void setGlyphsSampleAmountY(int value);
@@ -47,6 +48,8 @@ public slots:
      void setIsolineN(int pos);
      void setIsolineOption(int value);
      void setHeightPlot(bool value);
+     void setZoomView(int value);
+     void setRotateView(int value);
 
 protected:
     void initializeGL();
@@ -71,6 +74,7 @@ protected:
     void hsv2rgb(float* R, float* G, float* B, float H, float S, float V);
 
     float get_scalar(int i);
+    float get_scalar_height(int i);
 
     QVector3D interpolation(QVector3D pos_to_visualise, QVector3D p1, QVector3D p2, QVector3D p3, QVector3D p4);
     float divergence(int i);
@@ -111,6 +115,7 @@ private:
     int   frozen = 0;               //toggles on/off the animation
 
     int scalar_data_set = 0;        //setting of scalar data set: 0 == rho, 1 == velocity magnitude, 2 == force magnitude
+    int scalar_data_set_height_color = 0;        //setting of scalar data set in the height map color: 0 == rho, 1 == velocity magnitude, 2 == force magnitude
     int vector_data_set = 0;        //setting of vector data set: 0 == velocity, 1 == force
     int glyph_sample_amt_x = 50;      //amount of samples of glyphs in x direction
     int glyph_sample_amt_y = 50;      //amount of samples of glyphs in y direction
@@ -126,6 +131,8 @@ private:
     int iso_N = 1;                      // amount n isolines in the range
 
     bool height_plot = false;
+    int zoom_view = 1;
+    int rotate_view = 0;
 
     Simulation simulation;
 

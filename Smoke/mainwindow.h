@@ -70,6 +70,12 @@ private slots:
 
     void on_heightplot_checkbox_toggled(bool checked);
 
+    void on_zoomSlider_sliderMoved(int position);
+
+    void on_rotateSlider_sliderMoved(int position);
+
+    void on_heightColorDataSetBox_activated(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
 };

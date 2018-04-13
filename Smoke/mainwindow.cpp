@@ -255,6 +255,8 @@ void MainWindow::on_isolineOptionDropdown_activated(const QString &arg1)
 
 void MainWindow::on_heightplot_checkbox_toggled(bool checked)
 {
+    ui->zoomSlider->setEnabled(checked);
+    ui->heightColorDataSetBox->setEnabled(checked);
     //put glyphs off
     ui->openGLWidget->toggle_vecs(!checked);
     ui->openGLWidget->toggle_vecs(!checked);
@@ -272,4 +274,29 @@ void MainWindow::on_heightplot_checkbox_toggled(bool checked)
     ui->isolineMaxSlider->setEnabled(!checked);
 
     ui->openGLWidget->setHeightPlot(checked);
+}
+
+void MainWindow::on_zoomSlider_sliderMoved(int position)
+{
+    ui->zoomLabel->setText(QStringLiteral("Zoom scale: %1").arg(position));
+    ui->openGLWidget->setZoomView(position);
+}
+
+void MainWindow::on_rotateSlider_sliderMoved(int position)
+{
+    ui->rotateLabel->setText(QStringLiteral("Rotate: %1").arg(position));
+    ui->openGLWidget->setRotateView(position);
+}
+
+void MainWindow::on_heightColorDataSetBox_activated(const QString &arg1)
+{
+    if(arg1 == "density"){
+        ui->openGLWidget->setHeightColorScalarDataSet(0);
+    }
+    if(arg1 == "fluid velocity magnitude"){
+        ui->openGLWidget->setHeightColorScalarDataSet(1);
+    }
+    if(arg1 == "force field magnitude"){
+        ui->openGLWidget->setHeightColorScalarDataSet(2);
+    }
 }
