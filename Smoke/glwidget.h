@@ -28,6 +28,7 @@ public slots:
 
      void setColor(int c);
      void setColorBands(int b);
+     int getBands();
      void setVecScale(float vs);
      void setSaturation(float sat);
      void setHue(float h);
@@ -47,6 +48,7 @@ public slots:
      void setIsolineMax(float pos);
      void setIsolineN(int pos);
      void setIsolineOption(int value);
+     void isolineThickness(int value);
      void setHeightPlot(bool value);
      void setZoomView(int value);
      void setRotateView(int value);
@@ -129,6 +131,7 @@ private:
     float iso_min = 0.0;                // minimum for isoline range
     float iso_max = 1.0;                // maximum for isoline range
     int iso_N = 1;                      // amount n isolines in the range
+    int iso_thickness = 4;              // thickness of isolines
 
     bool height_plot = false;
     int zoom_view = 1;

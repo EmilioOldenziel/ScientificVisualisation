@@ -4,7 +4,7 @@
 //Default Constructor
 Simulation::Simulation() {
     // default values member variables
-    dt = 0.04;				//simulation time step
+    dt = 0.08;				//simulation time step
     visc = 0.0001;				//fluid viscosity
 }
 

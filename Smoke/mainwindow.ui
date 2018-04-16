@@ -210,7 +210,7 @@
      <rect>
       <x>710</x>
       <y>60</y>
-      <width>82</width>
+      <width>91</width>
       <height>23</height>
      </rect>
     </property>
@@ -561,7 +561,7 @@
      <rect>
       <x>890</x>
       <y>200</y>
-      <width>131</width>
+      <width>141</width>
       <height>17</height>
      </rect>
     </property>
@@ -587,12 +587,12 @@
      <rect>
       <x>890</x>
       <y>30</y>
-      <width>71</width>
+      <width>141</width>
       <height>17</height>
      </rect>
     </property>
     <property name="text">
-     <string>Scalar field:</string>
+     <string>Color mapping on</string>
     </property>
    </widget>
    <widget class="QLabel" name="glyphLabelY">
@@ -600,7 +600,7 @@
      <rect>
       <x>890</x>
       <y>250</y>
-      <width>131</width>
+      <width>141</width>
       <height>17</height>
      </rect>
     </property>
@@ -635,7 +635,7 @@
      <rect>
       <x>710</x>
       <y>40</y>
-      <width>84</width>
+      <width>91</width>
       <height>22</height>
      </rect>
     </property>
@@ -1084,6 +1084,59 @@
      </property>
     </item>
    </widget>
+   <widget class="QLabel" name="isolineThicknessLabel">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>560</y>
+      <width>151</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Isoline Thickness:</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="isolineThicknessSlider">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>580</y>
+      <width>160</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>8</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
+    </property>
+    <property name="pageStep">
+     <number>1</number>
+    </property>
+    <property name="value">
+     <number>4</number>
+    </property>
+    <property name="tracking">
+     <bool>true</bool>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksBothSides</enum>
+    </property>
+    <property name="tickInterval">
+     <number>25</number>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -1091,7 +1144,7 @@
      <x>0</x>
      <y>0</y>
      <width>1159</width>
-     <height>27</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>

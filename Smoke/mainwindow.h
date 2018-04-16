@@ -76,6 +76,8 @@ private slots:
 
     void on_heightColorDataSetBox_activated(const QString &arg1);
 
+    void on_isolineThicknessSlider_sliderMoved(int position);
+
 private:
     Ui::MainWindow *ui;
 };

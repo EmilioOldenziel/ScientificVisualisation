@@ -43,7 +43,7 @@ float GLWidget::clamp(float value, float min, float max)
 
 void GLWidget::draw_isoline(float threshold, fftw_real wn, fftw_real hn){
     set_colormap(threshold);
-    glLineWidth(4.0);
+    glLineWidth(iso_thickness);
     glBegin(GL_LINES);
     float p1, p2, p3, p4;
     float x1, y1, x2, y2;
@@ -228,12 +228,12 @@ void GLWidget::drawColorBar()
     float bar_width = (0.1);
     float bar_height = (0.0075);
 
-    for(int i = -100; i<= 100; i++){
+    for(int i = -100; i<100; i++){
         set_colormap((i+100)*0.5*0.01);
         glVertex3f(offset,              i*bar_height,       0.0);
-        glVertex3f(offset+bar_width,    i*bar_height,       0.0);
+        glVertex3f((offset+bar_width),    i*bar_height,       0.0);
+        glVertex3f((offset+bar_width),    (i+1)*bar_height,   0.0);
         glVertex3f(offset,              (i+1)*bar_height,   0.0);
-        glVertex3f(offset+bar_width,    (i+1)*bar_height,   0.0);
     }
     glEnd();
     glPopMatrix();
@@ -267,21 +267,23 @@ void GLWidget::heatMap(float value,float* R,float* G,float* B)
 //Implementation of the zebra colormap (page 156)
 void GLWidget::zebra(float value,float* R,float* G,float* B)
 {
-    if (value<0) value=0; if (value>1) value=1;
-    if (int ((value*100)) % 25){
-        *R = *G = *B = 1;
+    float band_width = 1.0/10;
+    if (value<0.0) value=0.0; if (value>1.0) value=1.0;
+    int val = (value / band_width);
+    if (val % 2){
+        *R = *G = *B = 1.0;
     }else{
-        *R = *G = *B = 0;
-
+        *R = *G = *B = 0.0;
     }
 }
 
 
 float GLWidget::colorBands(float vy, int bands){
-    int NLEVELS = bands;
-    vy *= NLEVELS;
+    float start_vy = vy;
+    vy = clamp(vy, 0.0, 0.999999);
+    vy *= bands;
     vy = (int)(vy);
-    vy/= NLEVELS;
+    vy /= bands;
     return vy;
 }
 
@@ -446,9 +448,9 @@ void GLWidget::visualize(void)
             glBegin(GL_TRIANGLES);
 
 
-        for (j = 0; j < glyph_sample_amt_y - 1; j++)            //draw smoke
+        for (j = -1; j < glyph_sample_amt_y; j++)            //draw smoke
         {
-            for (i = 0; i < glyph_sample_amt_x - 1; i++)
+            for (i = -1; i < glyph_sample_amt_x; i++)
             {
                 i_sim = floor((i/(float)glyph_sample_amt_x) * DIM);
                 j_sim = floor((j/(float)glyph_sample_amt_y) * DIM);
@@ -711,6 +713,11 @@ void GLWidget::setIsolineN(int pos){
     iso_N = pos;
 }
 
+void GLWidget::isolineThickness(int value){
+    iso_thickness = value;
+}
+
+
 void GLWidget::setHeightPlot(bool checked){
         height_plot = checked;
 }
@@ -727,3 +734,6 @@ void GLWidget::setHeightColorScalarDataSet(int value){
     scalar_data_set_height_color = value;
 }
 
+int GLWidget::getBands(){
+    return bands;
+}

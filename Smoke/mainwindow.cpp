@@ -55,7 +55,13 @@ void MainWindow::on_colorBox_activated(const QString &arg1)
         ui->openGLWidget->setColor(2);
     }
     if(arg1 == "zebra"){
+        ui->bandsLabel->setText(QStringLiteral("Number of bands: 10"));
+        ui->bandsSlider->setEnabled(false);
         ui->openGLWidget->setColor(3);
+    }
+    else{
+        ui->bandsSlider->setEnabled(true);
+        ui->bandsLabel->setText(QStringLiteral("Number of bands: %1").arg(ui->openGLWidget->getBands()));
     }
 }
 
@@ -195,6 +201,7 @@ void MainWindow::on_iso_checkbox_toggled(bool checked)
         ui->isolineOptionDropdown->setEnabled(checked);
         ui->isolineSlider->setEnabled(checked);
         ui->openGLWidget->setIsolines(checked);
+        ui->isolineThicknessSlider->setEnabled(checked);
     }
     else{
         ui->isolineOptionDropdown->setEnabled(checked);
@@ -205,6 +212,7 @@ void MainWindow::on_iso_checkbox_toggled(bool checked)
         ui->isolineNSlider->setEnabled(false);
         ui->isolinMinSlider->setEnabled(false);
         ui->isolineMaxSlider->setEnabled(false);
+        ui->isolineThicknessSlider->setEnabled(false);
     }
 }
 
@@ -299,4 +307,10 @@ void MainWindow::on_heightColorDataSetBox_activated(const QString &arg1)
     if(arg1 == "force field magnitude"){
         ui->openGLWidget->setHeightColorScalarDataSet(2);
     }
+}
+
+void MainWindow::on_isolineThicknessSlider_sliderMoved(int position)
+{
+    ui->isolineThicknessLabel->setText(QStringLiteral("Isoline thickness: %1").arg(position));
+    ui->openGLWidget->isolineThickness(position);
 }
