@@ -325,3 +325,8 @@ void MainWindow::on_glyphColorComboBox_activated(const QString &arg1)
         ui->openGLWidget->setGlyphColor(2);
     }
 }
+
+void MainWindow::on_magnitudeCheckbox_toggled(bool checked)
+{
+    ui->openGLWidget->setGlyphMagnitude(checked);
+}

@@ -228,7 +228,10 @@ QVector3D GLWidget::interpolation(QVector3D pos_to_visualise, QVector3D p1, QVec
     interpolated = interpolated + (weight_3*p3);
     interpolated = interpolated + (weight_4*p4);
 
-   return interpolated.normalized()*vec_scale;
+    if(glyph_magnitude)
+        return interpolated*vec_scale;
+    else
+        return interpolated.normalized()*vec_scale;
 }
 
 float GLWidget::color_interpolation(QVector3D pos_to_visualise, float v1, float v2, float v3, float v4){
@@ -794,4 +797,8 @@ void GLWidget::setJitter(bool checked){
 }
 void GLWidget::setGlyphColor(int value){
     glyph_color = value;
+}
+
+void GLWidget::setGlyphMagnitude(bool value){
+    glyph_magnitude = value;
 }

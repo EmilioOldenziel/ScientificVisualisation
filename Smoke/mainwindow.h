@@ -78,6 +78,8 @@ private slots:
 
     void on_glyphColorComboBox_activated(const QString &arg1);
 
+    void on_magnitudeCheckbox_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
 };

@@ -41,6 +41,7 @@ public slots:
      void setGlyphsSampleAmountX(int value);
      void setGlyphsSampleAmountY(int value);
      void setGlyphShape(int value);
+     void setGlyphMagnitude(bool value);
      void setIsolines(int value);
      void setIsolineThreshold(float pos);
      void setIsolineMin(float pos);
@@ -127,6 +128,7 @@ private:
     float* jitter_y;
 
     int glyph_shape = 0;
+    bool glyph_magnitude = false;
 
     int isoline_option = 0;             //isoline option 0 == threshold, 1 == range
     float iso_threshold = 0.20;         //isoline threshold

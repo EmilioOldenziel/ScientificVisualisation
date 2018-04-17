@@ -413,7 +413,7 @@
       <x>790</x>
       <y>120</y>
       <width>181</width>
-      <height>351</height>
+      <height>371</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -429,7 +429,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>180</y>
+       <y>200</y>
        <width>161</width>
        <height>27</height>
       </rect>
@@ -470,7 +470,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>100</y>
+       <y>120</y>
        <width>71</width>
        <height>17</height>
       </rect>
@@ -483,7 +483,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>120</y>
+       <y>140</y>
        <width>161</width>
        <height>27</height>
       </rect>
@@ -503,7 +503,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>40</y>
+       <y>60</y>
        <width>71</width>
        <height>17</height>
       </rect>
@@ -532,7 +532,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>60</y>
+       <y>80</y>
        <width>161</width>
        <height>27</height>
       </rect>
@@ -557,7 +557,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>160</y>
+       <y>180</y>
        <width>141</width>
        <height>17</height>
       </rect>
@@ -570,7 +570,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>320</y>
+       <y>340</y>
        <width>160</width>
        <height>21</height>
       </rect>
@@ -592,7 +592,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>260</y>
+       <y>280</y>
        <width>141</width>
        <height>17</height>
       </rect>
@@ -605,7 +605,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>220</y>
+       <y>240</y>
        <width>151</width>
        <height>17</height>
       </rect>
@@ -618,7 +618,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>240</y>
+       <y>260</y>
        <width>160</width>
        <height>16</height>
       </rect>
@@ -655,7 +655,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>280</y>
+       <y>300</y>
        <width>160</width>
        <height>21</height>
       </rect>
@@ -677,13 +677,29 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>300</y>
+       <y>320</y>
        <width>141</width>
        <height>17</height>
       </rect>
      </property>
      <property name="text">
       <string>Glyphs sampling Y: 50</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="magnitudeCheckbox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>magnitude</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
      </property>
     </widget>
    </widget>
@@ -1006,7 +1022,7 @@
     <property name="geometry">
      <rect>
       <x>790</x>
-      <y>480</y>
+      <y>500</y>
       <width>181</width>
       <height>201</height>
      </rect>
