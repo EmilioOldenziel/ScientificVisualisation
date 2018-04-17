@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1159</width>
-    <height>673</height>
+    <width>1169</width>
+    <height>791</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,1130 +21,1272 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
-      <width>591</width>
-      <height>501</height>
+      <y>10</y>
+      <width>771</width>
+      <height>711</height>
      </rect>
     </property>
    </widget>
-   <widget class="QCheckBox" name="smoke_checkbox">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
+   <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>640</x>
-      <y>40</y>
-      <width>82</width>
-      <height>23</height>
+      <x>980</x>
+      <y>10</y>
+      <width>181</width>
+      <height>351</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Smoke</string>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox { 
+     border: 2px solid gray; 
+	 font: bold;
+ } </string>
     </property>
-    <property name="checked">
-     <bool>true</bool>
+    <property name="title">
+     <string> Coloring</string>
     </property>
-   </widget>
-   <widget class="QCheckBox" name="vecs_checkbox">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>60</y>
-      <width>82</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Vecs</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="colorBox">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>140</y>
-      <width>101</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>black-white</string>
+    <widget class="QSlider" name="colorClampingMinSlider">
+     <property name="enabled">
+      <bool>false</bool>
      </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>rainbow</string>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>300</y>
+       <width>51</width>
+       <height>21</height>
+      </rect>
      </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>heatmap</string>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
      </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>zebra</string>
+     <property name="maximum">
+      <number>50</number>
      </property>
-    </item>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>110</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Color Map</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="bandsSlider">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>200</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>256</number>
-    </property>
-    <property name="singleStep">
-     <number>1</number>
-    </property>
-    <property name="pageStep">
-     <number>1</number>
-    </property>
-    <property name="value">
-     <number>256</number>
-    </property>
-    <property name="tracking">
-     <bool>true</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBothSides</enum>
-    </property>
-    <property name="tickInterval">
-     <number>25</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="bandsLabel">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>180</y>
-      <width>151</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Number of bands: 256</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="vecScaleLabel">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>150</y>
-      <width>151</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Vector scaling: 0.20</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="vecScaleSlider">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>170</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="singleStep">
-     <number>1</number>
-    </property>
-    <property name="pageStep">
-     <number>1</number>
-    </property>
-    <property name="value">
-     <number>20</number>
-    </property>
-    <property name="tracking">
-     <bool>true</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBothSides</enum>
-    </property>
-    <property name="tickInterval">
-     <number>25</number>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="vecsColor_checkbox">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>60</y>
-      <width>91</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Vecs Color</string>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QSlider" name="saturationSlider">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>250</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>0</number>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="singleStep">
-     <number>1</number>
-    </property>
-    <property name="pageStep">
-     <number>1</number>
-    </property>
-    <property name="value">
-     <number>100</number>
-    </property>
-    <property name="tracking">
-     <bool>true</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBothSides</enum>
-    </property>
-    <property name="tickInterval">
-     <number>25</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="saturationLabel">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>230</y>
-      <width>151</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Saturation: 1</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="hueLabel">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>280</y>
-      <width>151</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Hue: 0 </string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="hueSlider">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>310</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>0</number>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="singleStep">
-     <number>1</number>
-    </property>
-    <property name="pageStep">
-     <number>1</number>
-    </property>
-    <property name="value">
-     <number>0</number>
-    </property>
-    <property name="tracking">
-     <bool>true</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBothSides</enum>
-    </property>
-    <property name="tickInterval">
-     <number>25</number>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="colorScalingBox">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>350</y>
-      <width>101</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Color Scaling</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="colorScalingMaxSlider">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>370</y>
-      <width>61</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
-    <property name="minimum">
-     <number>51</number>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="value">
-     <number>100</number>
-    </property>
-    <property name="sliderPosition">
-     <number>100</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="invertedAppearance">
-     <bool>false</bool>
-    </property>
-    <property name="invertedControls">
-     <bool>true</bool>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::NoTicks</enum>
-    </property>
-   </widget>
-   <widget class="QSlider" name="colorScalingMinSlider">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>370</y>
-      <width>51</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::RightToLeft</enum>
-    </property>
-    <property name="maximum">
-     <number>50</number>
-    </property>
-    <property name="value">
-     <number>50</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="invertedAppearance">
-     <bool>false</bool>
-    </property>
-    <property name="invertedControls">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="colorClampingBox">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>390</y>
-      <width>131</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Color Clamping</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="colorClampingMinSlider">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>420</y>
-      <width>51</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::RightToLeft</enum>
-    </property>
-    <property name="maximum">
-     <number>50</number>
-    </property>
-    <property name="value">
-     <number>50</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="invertedAppearance">
-     <bool>false</bool>
-    </property>
-    <property name="invertedControls">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QSlider" name="colorClampingMaxSlider">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>420</y>
-      <width>61</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
-    <property name="minimum">
-     <number>51</number>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="value">
-     <number>100</number>
-    </property>
-    <property name="sliderPosition">
-     <number>100</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="invertedAppearance">
-     <bool>false</bool>
-    </property>
-    <property name="invertedControls">
-     <bool>true</bool>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::NoTicks</enum>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="dataSetBox">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>50</y>
-      <width>161</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>density</string>
+     <property name="value">
+      <number>50</number>
      </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>fluid velocity magnitude</string>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>force field magnitude</string>
+     <property name="invertedAppearance">
+      <bool>false</bool>
      </property>
-    </item>
-   </widget>
-   <widget class="QComboBox" name="vectorDataSetBox">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>110</y>
-      <width>161</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>velocity</string>
+     <property name="invertedControls">
+      <bool>false</bool>
      </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>force</string>
+    </widget>
+    <widget class="QSlider" name="saturationSlider">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>160</y>
+       <width>160</width>
+       <height>16</height>
+      </rect>
      </property>
-    </item>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="singleStep">
+      <number>1</number>
+     </property>
+     <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>100</number>
+     </property>
+     <property name="tracking">
+      <bool>true</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBothSides</enum>
+     </property>
+     <property name="tickInterval">
+      <number>25</number>
+     </property>
+    </widget>
+    <widget class="QSlider" name="hueSlider">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>210</y>
+       <width>160</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="singleStep">
+      <number>1</number>
+     </property>
+     <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="tracking">
+      <bool>true</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBothSides</enum>
+     </property>
+     <property name="tickInterval">
+      <number>25</number>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="colorScalingBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>230</y>
+       <width>101</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Color Scaling</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="saturationLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>130</y>
+       <width>151</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Saturation: 1</string>
+     </property>
+    </widget>
+    <widget class="QSlider" name="bandsSlider">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>110</y>
+       <width>160</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>256</number>
+     </property>
+     <property name="singleStep">
+      <number>1</number>
+     </property>
+     <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>256</number>
+     </property>
+     <property name="tracking">
+      <bool>true</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBothSides</enum>
+     </property>
+     <property name="tickInterval">
+      <number>25</number>
+     </property>
+    </widget>
+    <widget class="QSlider" name="colorScalingMaxSlider">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>250</y>
+       <width>61</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="minimum">
+      <number>51</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>100</number>
+     </property>
+     <property name="sliderPosition">
+      <number>100</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="invertedAppearance">
+      <bool>false</bool>
+     </property>
+     <property name="invertedControls">
+      <bool>true</bool>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::NoTicks</enum>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="colorClampingBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>270</y>
+       <width>131</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Color Clamping</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="hueLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>190</y>
+       <width>151</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hue: 0 </string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="colorBox">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>101</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>black-white</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>rainbow</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>heatmap</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>zebra</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Color Map</string>
+     </property>
+    </widget>
+    <widget class="QSlider" name="colorScalingMinSlider">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>250</y>
+       <width>51</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="maximum">
+      <number>50</number>
+     </property>
+     <property name="value">
+      <number>50</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="invertedAppearance">
+      <bool>false</bool>
+     </property>
+     <property name="invertedControls">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="bandsLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>90</y>
+       <width>151</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Number of bands: 256</string>
+     </property>
+    </widget>
+    <widget class="QSlider" name="colorClampingMaxSlider">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>300</y>
+       <width>61</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="minimum">
+      <number>51</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>100</number>
+     </property>
+     <property name="sliderPosition">
+      <number>100</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="invertedAppearance">
+      <bool>false</bool>
+     </property>
+     <property name="invertedControls">
+      <bool>true</bool>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::NoTicks</enum>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="glyphSliderX">
+   <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>220</y>
-      <width>160</width>
-      <height>21</height>
+      <x>790</x>
+      <y>120</y>
+      <width>181</width>
+      <height>351</height>
      </rect>
     </property>
-    <property name="minimum">
-     <number>1</number>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox { 
+     border: 2px solid gray; 
+	 font: bold;
+ } </string>
     </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="value">
-     <number>50</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="glyphLabelX">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>200</y>
-      <width>141</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Glyphs sampling X: 50</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="vectorFieldLabel">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>90</y>
-      <width>71</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Vector field:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="scalarFieldLabel">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>30</y>
-      <width>141</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Color mapping on</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="glyphLabelY">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>250</y>
-      <width>141</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Glyphs sampling Y: 50</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="glyphSliderY">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>280</y>
-      <width>160</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="value">
-     <number>50</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="divergence">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>40</y>
-      <width>91</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Divergence</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="glyphBoxLabel">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>320</y>
-      <width>71</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
+    <property name="title">
      <string>Glyphs</string>
     </property>
+    <widget class="QComboBox" name="glyphColorComboBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>180</y>
+       <width>161</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>none</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>direction</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>scalar data set</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QCheckBox" name="jitterCheckbox">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>20</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Jittered</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="vectorFieldLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>71</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Vector field:</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="vectorDataSetBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>161</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>velocity</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>force</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="glyphBoxLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>71</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Shape</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="vecs_checkbox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>82</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>enable</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="glyphBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>161</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>hedgehogs</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>arrows</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>cones</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="glyphColorLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>160</y>
+       <width>141</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Glyph color on:</string>
+     </property>
+    </widget>
+    <widget class="QSlider" name="glyphSliderY">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>320</y>
+       <width>160</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>50</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="glyphLabelX">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>260</y>
+       <width>141</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Glyphs sampling X: 50</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="vecScaleLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>220</y>
+       <width>151</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Glyph scaling: 0.20</string>
+     </property>
+    </widget>
+    <widget class="QSlider" name="vecScaleSlider">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>240</y>
+       <width>160</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="singleStep">
+      <number>1</number>
+     </property>
+     <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>20</number>
+     </property>
+     <property name="tracking">
+      <bool>true</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBothSides</enum>
+     </property>
+     <property name="tickInterval">
+      <number>25</number>
+     </property>
+    </widget>
+    <widget class="QSlider" name="glyphSliderX">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>280</y>
+       <width>160</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>50</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="glyphLabelY">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>300</y>
+       <width>141</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Glyphs sampling Y: 50</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QComboBox" name="glyphBox">
+   <widget class="QGroupBox" name="groupBox_6">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>340</y>
-      <width>161</width>
-      <height>27</height>
+      <x>980</x>
+      <y>370</y>
+      <width>181</width>
+      <height>281</height>
      </rect>
     </property>
-    <item>
-     <property name="text">
-      <string>hedgehogs</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>arrows</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>cones</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QCheckBox" name="iso_checkbox">
-    <property name="enabled">
-     <bool>true</bool>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox { 
+     border: 2px solid gray; 
+	 font: bold;
+ } </string>
     </property>
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>80</y>
-      <width>82</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
+    <property name="title">
      <string>Isolines</string>
     </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="isolineScaleLabel">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>430</y>
-      <width>151</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Isoline threshold: 0.20</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="isolineSlider">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>450</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="singleStep">
-     <number>1</number>
-    </property>
-    <property name="pageStep">
-     <number>1</number>
-    </property>
-    <property name="value">
-     <number>20</number>
-    </property>
-    <property name="tracking">
-     <bool>true</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBothSides</enum>
-    </property>
-    <property name="tickInterval">
-     <number>25</number>
-    </property>
-   </widget>
-   <widget class="QSlider" name="isolineMaxSlider">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>970</x>
-      <y>530</y>
-      <width>51</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
-    <property name="minimum">
-     <number>51</number>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="value">
-     <number>100</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QSlider" name="isolinMinSlider">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>530</y>
-      <width>51</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::RightToLeft</enum>
-    </property>
-    <property name="maximum">
-     <number>50</number>
-    </property>
-    <property name="value">
-     <number>50</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="invertedAppearance">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="isolineNLabel">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>470</y>
-      <width>151</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Amount of isolines: 1</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="isolineMinLabel">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>510</y>
-      <width>131</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Min: 0.0</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="isolineMaxLabel">
-    <property name="geometry">
-     <rect>
-      <x>970</x>
-      <y>510</y>
-      <width>131</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Max: 1.0</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="isolineNSlider">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>490</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>10</number>
-    </property>
-    <property name="singleStep">
-     <number>1</number>
-    </property>
-    <property name="pageStep">
-     <number>1</number>
-    </property>
-    <property name="value">
-     <number>1</number>
-    </property>
-    <property name="tracking">
-     <bool>true</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBothSides</enum>
-    </property>
-    <property name="tickInterval">
-     <number>25</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="isolineOptionLabel">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>380</y>
-      <width>91</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Isoline option:</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="isolineOptionDropdown">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>400</y>
-      <width>161</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>threshold</string>
+    <widget class="QSlider" name="isolineThicknessSlider">
+     <property name="enabled">
+      <bool>false</bool>
      </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>range</string>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>250</y>
+       <width>160</width>
+       <height>16</height>
+      </rect>
      </property>
-    </item>
-   </widget>
-   <widget class="QCheckBox" name="heightplot_checkbox">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>80</y>
-      <width>101</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Height plots</string>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QSlider" name="zoomSlider">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>510</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>10</number>
-    </property>
-    <property name="singleStep">
-     <number>1</number>
-    </property>
-    <property name="pageStep">
-     <number>1</number>
-    </property>
-    <property name="value">
-     <number>1</number>
-    </property>
-    <property name="tracking">
-     <bool>true</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBothSides</enum>
-    </property>
-    <property name="tickInterval">
-     <number>25</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="zoomLabel">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>490</y>
-      <width>151</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Zoom scale: 1</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="rotateLabel">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>450</y>
-      <width>151</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Rotate: 0</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="rotateSlider">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>470</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>0</number>
-    </property>
-    <property name="maximum">
-     <number>360</number>
-    </property>
-    <property name="singleStep">
-     <number>1</number>
-    </property>
-    <property name="pageStep">
-     <number>1</number>
-    </property>
-    <property name="value">
-     <number>0</number>
-    </property>
-    <property name="tracking">
-     <bool>true</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBothSides</enum>
-    </property>
-    <property name="tickInterval">
-     <number>25</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="scalarFieldLabel_2">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>530</y>
-      <width>161</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Scalar field heightmap color:</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="heightColorDataSetBox">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>550</y>
-      <width>161</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>density</string>
+     <property name="minimum">
+      <number>1</number>
      </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>fluid velocity magnitude</string>
+     <property name="maximum">
+      <number>8</number>
      </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>force field magnitude</string>
+     <property name="singleStep">
+      <number>1</number>
      </property>
-    </item>
+     <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>4</number>
+     </property>
+     <property name="tracking">
+      <bool>true</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBothSides</enum>
+     </property>
+     <property name="tickInterval">
+      <number>25</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="isolineMaxLabel">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>180</y>
+       <width>131</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Max: 1.0</string>
+     </property>
+    </widget>
+    <widget class="QSlider" name="isolinMinSlider">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>200</y>
+       <width>51</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="maximum">
+      <number>50</number>
+     </property>
+     <property name="value">
+      <number>50</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="invertedAppearance">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="isolineScaleLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>151</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Isoline threshold: 0.20</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="iso_checkbox">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>82</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>enable</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="isolineThicknessLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>230</y>
+       <width>151</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Isoline Thickness:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="isolineMinLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>180</y>
+       <width>131</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Min: 0.0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="isolineOptionLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>91</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Isoline option:</string>
+     </property>
+    </widget>
+    <widget class="QSlider" name="isolineNSlider">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>160</y>
+       <width>160</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>10</number>
+     </property>
+     <property name="singleStep">
+      <number>1</number>
+     </property>
+     <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>1</number>
+     </property>
+     <property name="tracking">
+      <bool>true</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBothSides</enum>
+     </property>
+     <property name="tickInterval">
+      <number>25</number>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="isolineOptionDropdown">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>70</y>
+       <width>161</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>threshold</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>range</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QSlider" name="isolineSlider">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>160</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="singleStep">
+      <number>1</number>
+     </property>
+     <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>20</number>
+     </property>
+     <property name="tracking">
+      <bool>true</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBothSides</enum>
+     </property>
+     <property name="tickInterval">
+      <number>25</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="isolineNLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>140</y>
+       <width>151</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Amount of isolines: 1</string>
+     </property>
+    </widget>
+    <widget class="QSlider" name="isolineMaxSlider">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>200</y>
+       <width>51</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="minimum">
+      <number>51</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>100</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </widget>
-   <widget class="QLabel" name="isolineThicknessLabel">
+   <widget class="QGroupBox" name="groupBox_7">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>560</y>
-      <width>151</width>
-      <height>17</height>
+      <x>790</x>
+      <y>480</y>
+      <width>181</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Isoline Thickness:</string>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox { 
+     border: 2px solid gray; 
+	 font: bold;
+ } </string>
     </property>
+    <property name="title">
+     <string>Height map</string>
+    </property>
+    <widget class="QComboBox" name="heightColorDataSetBox">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>160</y>
+       <width>161</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>density</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>fluid velocity magnitude</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>force field magnitude</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>divergence</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QSlider" name="zoomSlider">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>160</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>10</number>
+     </property>
+     <property name="singleStep">
+      <number>1</number>
+     </property>
+     <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>1</number>
+     </property>
+     <property name="tracking">
+      <bool>true</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBothSides</enum>
+     </property>
+     <property name="tickInterval">
+      <number>25</number>
+     </property>
+    </widget>
+    <widget class="QSlider" name="rotateSlider">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>160</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>360</number>
+     </property>
+     <property name="singleStep">
+      <number>1</number>
+     </property>
+     <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="tracking">
+      <bool>true</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBothSides</enum>
+     </property>
+     <property name="tickInterval">
+      <number>25</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="zoomLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>151</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Zoom scale: 1</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="heightplot_checkbox">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>101</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>enable</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="rotateLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>151</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Rotate: 0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="scalarFieldLabel_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>140</y>
+       <width>161</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Scalar field heightmap color:</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QSlider" name="isolineThicknessSlider">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
+   <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>580</y>
-      <width>160</width>
-      <height>16</height>
+      <x>790</x>
+      <y>10</y>
+      <width>181</width>
+      <height>101</height>
      </rect>
     </property>
-    <property name="minimum">
-     <number>1</number>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox { 
+     border: 2px solid gray; 
+	 font: bold;
+ } </string>
     </property>
-    <property name="maximum">
-     <number>8</number>
+    <property name="title">
+     <string>Smoke</string>
     </property>
-    <property name="singleStep">
-     <number>1</number>
-    </property>
-    <property name="pageStep">
-     <number>1</number>
-    </property>
-    <property name="value">
-     <number>4</number>
-    </property>
-    <property name="tracking">
-     <bool>true</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="tickPosition">
-     <enum>QSlider::TicksBothSides</enum>
-    </property>
-    <property name="tickInterval">
-     <number>25</number>
-    </property>
+    <widget class="QComboBox" name="dataSetBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>161</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>density</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>fluid velocity magnitude</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>force field magnitude</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>divergence</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QCheckBox" name="smoke_checkbox">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>82</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>enable</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="scalarFieldLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>141</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Color mapping on</string>
+     </property>
+    </widget>
    </widget>
+   <zorder>groupBox_6</zorder>
+   <zorder>groupBox</zorder>
+   <zorder>groupBox_2</zorder>
+   <zorder>openGLWidget</zorder>
+   <zorder>groupBox_7</zorder>
+   <zorder>groupBox_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1159</width>
-     <height>19</height>
+     <width>1169</width>
+     <height>27</height>
     </rect>
    </property>
   </widget>

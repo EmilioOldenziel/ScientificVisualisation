@@ -20,16 +20,15 @@ public slots:
      void do_one_simulation_step();
      void toggle_smoke(bool checked);
      void toggle_vecs(bool checked);
-     void toggleColorDirection(bool checked);
      void toggleColorScaling(bool checked);
      void toggleColorClamping(bool checked);
-     void toggleDivergence(bool checked);
-
+     void setGlyphColor(int value);
 
      void setColor(int c);
      void setColorBands(int b);
      int getBands();
      void setVecScale(float vs);
+     void setJitter(bool checked);
      void setSaturation(float sat);
      void setHue(float h);
      void setColorScaleMax(int max);
@@ -69,7 +68,7 @@ protected:
     void zebra(float value,float* R,float* G,float* B);
     float colorBands(float vy, int bands);
     void set_colormap(float vy);
-    void direction_to_color(float x, float y, int method);
+    void direction_to_color(float x, float y);
     void visualize();
 
     void rgb2hsv(float r, float g, float b, float* H, float* S, float* V);
@@ -79,6 +78,7 @@ protected:
     float get_scalar_height(int i);
 
     QVector3D interpolation(QVector3D pos_to_visualise, QVector3D p1, QVector3D p2, QVector3D p3, QVector3D p4);
+    float color_interpolation(QVector3D pos_to_visualize, float v1, float v2, float v3, float v4);
     float divergence(int i);
 
     void draw_isoline(float threshold, fftw_real wn, fftw_real hn);
@@ -91,10 +91,10 @@ protected:
 private:
     int   windowWidth, windowHeight;      //size of the graphics window, in pixels
     int   DIM;
-    int   color_dir = 0;            //use direction color-coding or not
     float vec_scale = 0.2;			//scaling of hedgehogs
     int   draw_smoke = 1;           //draw the smoke or not
     int   draw_vecs = 1;            //draw the vector field or not
+    int   glyph_color = 0;
     int   isolines = 0;
 
     const int COLOR_BLACKWHITE=0;   //different types of color mapping: black-and-white, rainbow, banded
@@ -121,8 +121,10 @@ private:
     int vector_data_set = 0;        //setting of vector data set: 0 == velocity, 1 == force
     int glyph_sample_amt_x = 50;      //amount of samples of glyphs in x direction
     int glyph_sample_amt_y = 50;      //amount of samples of glyphs in y direction
+    bool jitter = false;
 
-    int diver = 0;
+    float* jitter_x;
+    float* jitter_y;
 
     int glyph_shape = 0;
 

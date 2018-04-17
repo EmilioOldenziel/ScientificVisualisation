@@ -17,30 +17,18 @@ MainWindow::~MainWindow()
 void MainWindow::on_smoke_checkbox_toggled(bool checked)
 {
     ui->openGLWidget->toggle_smoke(checked);
-
-    // disable color bands slider and colormaps
-    ui->bandsLabel->setEnabled(checked);
-    ui->bandsSlider->setEnabled(checked);
-    ui->colorBox->setEnabled(checked);
-    ui->colorScalingBox->setEnabled(checked);
 }
 
 // turn gliphs on/off
 void MainWindow::on_vecs_checkbox_toggled(bool checked)
 {
     ui->openGLWidget->toggle_vecs(checked);
-    ui->vecsColor_checkbox->setEnabled(checked);
-
+    ui->jitterCheckbox->setEnabled(checked);
     ui->vecScaleLabel->setEnabled(checked);
     ui->vecScaleSlider->setEnabled(checked);
 
 }
 
-
-void MainWindow::on_divergence_toggled(bool checked)
-{
-    ui->openGLWidget->toggleDivergence(checked);
-}
 
 // dropdown for colormap selection
 void MainWindow::on_colorBox_activated(const QString &arg1)
@@ -77,13 +65,7 @@ void MainWindow::on_vecScaleSlider_sliderMoved(int position)
 {
     float pos = position/100.0;
     ui->openGLWidget->setVecScale(pos);
-    ui->vecScaleLabel->setText(QStringLiteral("Vector Scaling: %1").arg(pos));
-}
-
-// slider for gliph coloring
-void MainWindow::on_vecsColor_checkbox_clicked(bool checked)
-{
-    ui->openGLWidget->toggleColorDirection(checked);
+    ui->vecScaleLabel->setText(QStringLiteral("Glyph Scaling: %1").arg(pos));
 }
 
 void MainWindow::on_saturationSlider_sliderMoved(int position)
@@ -156,6 +138,9 @@ void MainWindow::on_dataSetBox_activated(const QString &arg1)
     }
     if(arg1 == "force field magnitude"){
         ui->openGLWidget->setScalarDataSet(2);
+    }
+    if(arg1 == "divergence"){
+        ui->openGLWidget->setScalarDataSet(3);
     }
 }
 
@@ -265,12 +250,17 @@ void MainWindow::on_heightplot_checkbox_toggled(bool checked)
 {
     ui->zoomSlider->setEnabled(checked);
     ui->heightColorDataSetBox->setEnabled(checked);
+    ui->rotateSlider->setEnabled(checked);
+    ui->zoomSlider->setEnabled(checked);
     //put glyphs off
     ui->openGLWidget->toggle_vecs(!checked);
     ui->openGLWidget->toggle_vecs(!checked);
-    ui->vecsColor_checkbox->setEnabled(!checked);
     ui->vecs_checkbox->setEnabled(!checked);
     ui->vecScaleSlider->setEnabled(!checked);
+    ui->glyphSliderX->setEnabled(!checked);
+    ui->glyphSliderY->setEnabled(!checked);
+    ui->jitterCheckbox->setEnabled(!checked);
+    ui->openGLWidget->toggle_vecs(!checked);
     ui->vectorDataSetBox->setEnabled(!checked);
     ui->glyphBox->setEnabled(!checked);
     //put isoliness off
@@ -307,10 +297,31 @@ void MainWindow::on_heightColorDataSetBox_activated(const QString &arg1)
     if(arg1 == "force field magnitude"){
         ui->openGLWidget->setHeightColorScalarDataSet(2);
     }
+    if(arg1 == "divergence"){
+        ui->openGLWidget->setHeightColorScalarDataSet(3);
+    }
 }
 
 void MainWindow::on_isolineThicknessSlider_sliderMoved(int position)
 {
     ui->isolineThicknessLabel->setText(QStringLiteral("Isoline thickness: %1").arg(position));
     ui->openGLWidget->isolineThickness(position);
+}
+
+void MainWindow::on_jitterCheckbox_toggled(bool checked)
+{
+    ui->openGLWidget->setJitter(checked);
+}
+
+void MainWindow::on_glyphColorComboBox_activated(const QString &arg1)
+{
+    if(arg1 == "none"){
+        ui->openGLWidget->setGlyphColor(0);
+    }
+    if(arg1 == "direction"){
+        ui->openGLWidget->setGlyphColor(1);
+    }
+    if(arg1 == "scalar data set"){
+        ui->openGLWidget->setGlyphColor(2);
+    }
 }

@@ -4,7 +4,7 @@
 //Default Constructor
 Simulation::Simulation() {
     // default values member variables
-    dt = 0.08;				//simulation time step
+    dt = 0.04;				//simulation time step
     visc = 0.0001;				//fluid viscosity
 }
 
@@ -16,6 +16,7 @@ fftw_real* Simulation::get_rho() const{return rho;}
 fftw_real* Simulation::get_rho0() const {return rho0;}
 fftw_real* Simulation::get_vx() const {return vx;}
 fftw_real* Simulation::get_vy() const {return vy;}
+fftw_real* Simulation::get_divergence() const {return divergence;}
 float Simulation::get_length(float x, float y) const{return sqrt(x*x + y*y);}
 fftw_real* Simulation::get_vx0() const {return vx0;}
 fftw_real* Simulation::get_vy0() const {return vy0;}
@@ -34,6 +35,7 @@ void Simulation::init_simulation(int n)
     vy       = (fftw_real*) malloc(dim);
     vx0      = (fftw_real*) malloc(dim);
     vy0      = (fftw_real*) malloc(dim);
+    divergence = (fftw_real*) malloc(dim);
     dim     = n * n * sizeof(fftw_real);
     fx      = (fftw_real*) malloc(dim);
     fy      = (fftw_real*) malloc(dim);
@@ -188,6 +190,46 @@ void Simulation::set_forces(int DIM)
             max_f = fm;
         }
     }
+}
+
+void Simulation::calc_divergence(int vector_data_set, int DIM){
+
+        fftw_real* datax;
+        fftw_real* datay;
+        switch(vector_data_set){
+        case 0:
+            datax = this->get_vx();
+            datay = this->get_vy();
+        break;
+        case 1:
+            datax = this->get_fx();
+            datay = this->get_fy();
+        break;
+        }
+
+
+        float  wn = 2.0 / DIM;   // Grid cell width
+        float  hn = 2.0 / DIM;  // Grid cell height
+
+        int i;
+        for (i = 0; i < DIM * DIM; i++)
+        {
+            float upper = this->get_length(datax[i-DIM], datay[i-DIM]);
+            float below = this->get_length(datax[i+DIM], datay[i+DIM]);
+            float left =  this->get_length(datax[i-1], datay[i-1]);
+            float right = this->get_length(datax[i+1], datay[i+1]);
+
+            float diff_x = ((left-right)/wn);
+            float diff_y = ((upper-below)/hn);
+
+            float result_d = (diff_x + diff_y);
+            if (result_d > max_divergence)
+                max_divergence = result_d;
+            if (result_d < min_divergence)
+                min_divergence = result_d;
+
+            divergence[i] =result_d;
+       }
 }
 
 void Simulation::drag(int mx, int my, int DIM, int winWidth, int winHeight)

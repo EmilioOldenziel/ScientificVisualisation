@@ -26,8 +26,6 @@ private slots:
 
     void on_vecScaleSlider_sliderMoved(int position);
 
-    void on_vecsColor_checkbox_clicked(bool checked);
-
     void on_saturationSlider_sliderMoved(int position);
 
     void on_hueSlider_sliderMoved(int position);
@@ -52,8 +50,6 @@ private slots:
 
     void on_glyphSliderX_sliderMoved(int position);
 
-    void on_divergence_toggled(bool checked);
-
     void on_glyphBox_activated(const QString &arg1);
 
     void on_iso_checkbox_toggled(bool checked);
@@ -77,6 +73,10 @@ private slots:
     void on_heightColorDataSetBox_activated(const QString &arg1);
 
     void on_isolineThicknessSlider_sliderMoved(int position);
+
+    void on_jitterCheckbox_toggled(bool checked);
+
+    void on_glyphColorComboBox_activated(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
