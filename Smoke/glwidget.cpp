@@ -264,6 +264,14 @@ void GLWidget::drawColorBar()
     float bar_width = (0.1);
     float bar_height = (0.0075);
 
+    //draw background
+    set_colormap(0.5);
+    glVertex3f(offset-0.005,              -100*bar_height-0.005,       0.0);
+    glVertex3f((offset+bar_width+0.005),    -100*bar_height-0.005,       0.0);
+    glVertex3f((offset+bar_width+0.005),    100*bar_height+0.005,   0.0);
+    glVertex3f(offset-0.005,              100*bar_height+0.005,   0.0);
+
+    // draw bars
     for(int i = -100; i<100; i++){
         set_colormap((i+100)*0.5*0.01);
         glVertex3f(offset,              i*bar_height,       0.0);
@@ -535,8 +543,8 @@ void GLWidget::visualize(void)
     fftw_real  hn_glyph = (fftw_real)2.0 / (fftw_real)(glyph_sample_amt_y + 1);  // Grid cell heigth
     if (draw_vecs)
     {
-        for (i = 0; i <= glyph_sample_amt_x; i++)
-            for (j = 0; j <= glyph_sample_amt_y; j++)
+        for (i = 0; i < glyph_sample_amt_x; i++)
+            for (j = 1; j < glyph_sample_amt_y; j++)
             {
                 i_sim = floor((i/(float)glyph_sample_amt_x) * DIM);
                 j_sim = floor((j/(float)glyph_sample_amt_y) * DIM);
@@ -630,7 +638,6 @@ void GLWidget::paintGL()
     float light[4] = {1,1,1,0};
     glLightfv(GL_LIGHT0, GL_POSITION, light);
     glEnable(GL_COLOR_MATERIAL);
-
     visualize();
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
