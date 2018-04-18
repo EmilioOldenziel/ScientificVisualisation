@@ -777,7 +777,7 @@ void GLWidget::setHeightPlot(bool checked){
 }
 
 void GLWidget::setZoomView(int value){
-    zoom_view = value;
+    zoom_view = value+1;
 }
 
 void GLWidget::setRotateView(int value){

@@ -122,7 +122,7 @@ private:
     int vector_data_set = 0;        //setting of vector data set: 0 == velocity, 1 == force
     int glyph_sample_amt_x = 50;      //amount of samples of glyphs in x direction
     int glyph_sample_amt_y = 50;      //amount of samples of glyphs in y direction
-    bool jitter = false;
+    bool jitter = true;
 
     float* jitter_x;
     float* jitter_y;
@@ -138,7 +138,7 @@ private:
     int iso_thickness = 4;              // thickness of isolines
 
     bool height_plot = false;
-    int zoom_view = 1;
+    int zoom_view = 2;
     int rotate_view = 0;
 
     Simulation simulation;
