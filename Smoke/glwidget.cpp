@@ -182,15 +182,8 @@ void GLWidget::draw_cone(QVector3D vector, fftw_real wn, fftw_real hn, int i, in
         jy = jitter_y[(i*glyph_sample_amt_x) + j] * 0.1 * hn;
     }
 
-    float x1 = (wn + (fftw_real)i * wn) - 1 ;
-    float y1 = (hn + (fftw_real)j * hn) - 1 ;
     float x2 = ((wn + (fftw_real)i * wn) + vec_scale * vector.x()) - 1.0 ;
     float y2 = ((hn + (fftw_real)j * hn) + vec_scale * vector.y()) - 1.0 ;
-
-    glBegin(GL_LINES);
-    glVertex2f(x1 + jx, y1 + jy);
-    glVertex2f(x2 + jx, y2 + jy);
-    glEnd();
 
     glBegin(GL_TRIANGLES);
     QVector3D perp_left =  QVector3D(-vector.y(), vector.x(), 0);
@@ -203,8 +196,8 @@ void GLWidget::draw_cone(QVector3D vector, fftw_real wn, fftw_real hn, int i, in
     perp_right += QVector3D(((wn + (fftw_real)i * wn)) + - 1, ((hn + (fftw_real)j * hn))+  -1, 0);
 
     glVertex2f(x2 + jx, y2 + jy);
-    glVertex2f(perp_left.x() + jx,perp_left.y() + jy);
-    glVertex2f(perp_right.x() + jx,perp_right.y() + jy);
+    glVertex2f(perp_left.x() + jx, perp_left.y() + jy);
+    glVertex2f(perp_right.x() + jx, perp_right.y() + jy);
 
     glEnd();
 }
@@ -547,7 +540,7 @@ void GLWidget::visualize(void)
     if (draw_vecs)
     {
         for (i = 0; i < glyph_sample_amt_x; i++)
-            for (j = 1; j < glyph_sample_amt_y; j++)
+            for (j = 0; j < glyph_sample_amt_y; j++)
             {
                 i_sim = floor((i/(float)glyph_sample_amt_x) * DIM);
                 j_sim = floor((j/(float)glyph_sample_amt_y) * DIM);
