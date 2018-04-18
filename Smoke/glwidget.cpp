@@ -540,7 +540,7 @@ void GLWidget::visualize(void)
     if (draw_vecs)
     {
         for (i = 0; i < glyph_sample_amt_x; i++)
-            for (j = 0; j < glyph_sample_amt_y; j++)
+            for (j = 1; j < glyph_sample_amt_y; j++)
             {
                 i_sim = floor((i/(float)glyph_sample_amt_x) * DIM);
                 j_sim = floor((j/(float)glyph_sample_amt_y) * DIM);
