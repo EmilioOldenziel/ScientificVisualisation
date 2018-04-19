@@ -9,7 +9,7 @@
 GLWidget::GLWidget(QWidget *parent)
     : QOpenGLWidget(parent)
 {
-    DIM = 50;
+    DIM = 100;
     simulation.init_simulation(DIM);
     QTimer *timer = new QTimer;
     timer->start();
@@ -32,6 +32,7 @@ GLWidget::~GLWidget()
 
 void GLWidget::initializeGL()
 {
+    glClearColor(1.0,1.0,1.0,1.0);
 }
 
 float GLWidget::max(float x, float y)
@@ -516,10 +517,10 @@ void GLWidget::visualize(void)
                 idx3 = (j * DIM) + (i + 1);
 
                 if(height_plot){
-                    set_colormap(get_scalar_height(idx0));    glVertex3f(px0-1, py0-1,get_scalar_height(idx0));
-                    set_colormap(get_scalar_height(idx1));    glVertex3f(px1-1, py1-1,get_scalar_height(idx1));
-                    set_colormap(get_scalar_height(idx2));    glVertex3f(px2-1, py2-1, get_scalar_height(idx2));
-                    set_colormap(get_scalar_height(idx3));    glVertex3f(px3-1, py3-1, get_scalar_height(idx3));
+                    set_colormap(get_scalar(idx0));    glVertex3f(px0-1, py0-1,get_scalar_height(idx0));
+                    set_colormap(get_scalar(idx1));    glVertex3f(px1-1, py1-1,get_scalar_height(idx1));
+                    set_colormap(get_scalar(idx2));    glVertex3f(px2-1, py2-1, get_scalar_height(idx2));
+                    set_colormap(get_scalar(idx3));    glVertex3f(px3-1, py3-1, get_scalar_height(idx3));
                 }else{
                     set_colormap(get_scalar(idx0));    glVertex2f(px0-1, py0-1);
                     set_colormap(get_scalar(idx1));    glVertex2f(px1-1, py1-1);
@@ -763,7 +764,6 @@ void GLWidget::setIsolineN(int pos){
 void GLWidget::isolineThickness(int value){
     iso_thickness = value;
 }
-
 
 void GLWidget::setHeightPlot(bool checked){
         height_plot = checked;
